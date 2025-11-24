@@ -29,7 +29,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0d0d0f] mt-8 mb-8 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#0d0d0f] px-4 py-8">
       <div className="w-full max-w-md bg-[#16161a] shadow-xl rounded-2xl p-8 border border-[#222]">
 
         {/* Title */}

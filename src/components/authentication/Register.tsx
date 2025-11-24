@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-black text-white px-4 mt-8 mb-8">
+    <div className="min-h-screen flex justify-center items-center bg-black text-white px-4 py-8">
       <div className="w-full max-w-md bg-neutral-900 border border-neutral-800 p-8 rounded-lg shadow-lg">
         {/* Title */}
         <h1 className="text-3xl font-semibold text-white text-center">
