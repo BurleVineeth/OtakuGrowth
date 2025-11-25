@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { UIRoutes } from "../../constants/routes";
+import { UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
+import { apiService } from "../../services/api.service";
+import { BackendRoutes } from "../../constants";
 
 type RegisterForm = {
   username: string;
@@ -31,8 +33,8 @@ const Register = () => {
   // eslint-disable-next-line react-hooks/incompatible-library
   const passwordValue = watch("password");
 
-  const onSubmit = (data: RegisterForm) => {
-    console.log("Register Data:", data);
+  const onSubmit = async ({ confirmPassword: _, ...data }: RegisterForm) => {
+    await apiService.post(BackendRoutes.USERS, data);
     dispatch(presentToast({ message: 'Registered successfully', type: TOAST_TYPES.SUCCESS }))
     reset()
   };

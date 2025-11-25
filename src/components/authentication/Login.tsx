@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { UIRoutes } from "../../constants/routes";
+import { UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 
@@ -11,7 +11,7 @@ interface LoginFormData {
   password: string;
 }
 
-export default function Login() {
+const Login = () => {
   const {
     register,
     handleSubmit,
@@ -105,3 +105,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default Login;

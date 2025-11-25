@@ -27,6 +27,16 @@ export default defineConfig([
         'warn',
         { allowConstantExport: true },
       ],
+
+      // ⬇️ Ignore unused variables that start with "_"
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_'
+        }
+      ]
     },
   },
 

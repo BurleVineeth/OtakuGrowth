@@ -1,7 +1,7 @@
 import {
   createBrowserRouter,
 } from "react-router";
-import { UIRoutes } from "../constants/routes";
+import { UIRoutes } from "../constants";
 import NotFound from "../components/NotFound";
 import { Login, Register } from "../components/authentication";
 
