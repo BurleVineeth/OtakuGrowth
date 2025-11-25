@@ -9,7 +9,7 @@ import { apiService } from "../../services/api.service";
 import { BackendRoutes } from "../../constants";
 
 type RegisterForm = {
-  username: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -34,9 +34,19 @@ const Register = () => {
   const passwordValue = watch("password");
 
   const onSubmit = async ({ confirmPassword: _, ...data }: RegisterForm) => {
-    await apiService.post(BackendRoutes.USERS, data);
-    dispatch(presentToast({ message: 'Registered successfully', type: TOAST_TYPES.SUCCESS }))
-    reset()
+    try {
+      const res = await apiService.post(BackendRoutes.USERS, data, {
+        withCredentials: true
+      });
+
+      const { accessToken, message } = res.data;
+      localStorage.setItem("accessToken", accessToken);
+
+      dispatch(presentToast({ message, type: TOAST_TYPES.SUCCESS }))
+      reset()
+    } catch (error) {
+      dispatch(presentToast({ message: apiService.getErrorMessage(error as Error), type: TOAST_TYPES.ERROR }))
+    }
   };
 
   return (
@@ -54,7 +64,7 @@ const Register = () => {
             <label className="text-sm text-gray-300">User Name</label>
             <input
               type="text"
-              {...register("username", {
+              {...register("name", {
                 required: "User name is required",
                 minLength: {
                   value: 3,
@@ -65,8 +75,8 @@ const Register = () => {
               focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
               placeholder="Enter a username"
             />
-            {errors.username && (
-              <p className="text-sm text-red-400 mt-1">{errors.username.message}</p>
+            {errors.name && (
+              <p className="text-sm text-red-400 mt-1">{errors.name.message}</p>
             )}
           </div>
 
