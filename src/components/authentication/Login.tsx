@@ -2,7 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { BackendRoutes, UIRoutes } from "../../constants";
+import { BackendRoutes, LocalStorageKeys, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
@@ -31,7 +31,7 @@ const Login = () => {
       });
       const { accessToken } = res.data;
 
-      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, accessToken);
       reset();
 
       navigate(`/${UIRoutes.HOME}`);

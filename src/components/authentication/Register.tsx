@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
-import { UIRoutes } from "../../constants";
+import { LocalStorageKeys, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
@@ -41,7 +41,7 @@ const Register = () => {
       });
 
       const { accessToken, message } = res.data;
-      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, accessToken);
 
       dispatch(presentToast({ message, type: TOAST_TYPES.SUCCESS }));
       reset();

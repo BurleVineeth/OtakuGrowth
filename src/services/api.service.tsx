@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import { BackendRoutes } from "../constants";
+import { BackendRoutes, LocalStorageKeys } from "../constants";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 class ApiService {
@@ -12,7 +12,7 @@ class ApiService {
     // Request interceptor: attach access token
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
         if (token) {
           config.headers = config.headers || {};
           config.headers.Authorization = `Bearer ${token}`;
@@ -37,12 +37,12 @@ class ApiService {
             const { data: refreshRes } = await this.post(BackendRoutes.REFRESH);
             const newAccessToken = refreshRes.data.accessToken;
 
-            localStorage.setItem("accessToken", newAccessToken);
+            localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, newAccessToken);
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
-            localStorage.removeItem("accessToken");
+            localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
             window.location.href = "/login";
             return Promise.reject(refreshError);
           }
