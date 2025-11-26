@@ -4,6 +4,7 @@ import {
 import { UIRoutes } from "../constants";
 import NotFound from "../components/NotFound";
 import { Login, Register } from "../components/authentication";
+import { Home } from "../components/domain";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: UIRoutes.REGISTER,
     element: <Register />,
+  },
+  {
+    path: UIRoutes.HOME,
+    element: <Home />,
   },
   {
     path: '*',

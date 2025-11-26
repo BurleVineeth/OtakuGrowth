@@ -11,6 +11,7 @@ function App() {
   const toaster = useSelector(({ toast }: AppState) => toast);
   const dispatch = useDispatch()
 
+
   useEffect(() => {
     if (toaster.message) {
       toast(toaster.message, {

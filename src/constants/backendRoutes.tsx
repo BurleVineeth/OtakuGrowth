@@ -1,3 +1,5 @@
 export const BackendRoutes = {
-  USERS: 'users'
+  LOGIN: 'login',
+  REFRESH: 'refresh',
+  USERS: 'users',
 }

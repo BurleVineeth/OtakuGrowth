@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
@@ -29,13 +29,14 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const passwordValue = watch("password");
 
   const onSubmit = async ({ confirmPassword: _, ...data }: RegisterForm) => {
     try {
-      const res = await apiService.post(BackendRoutes.USERS, data, {
+      const { data: res } = await apiService.post(BackendRoutes.USERS, data, {
         withCredentials: true
       });
 
@@ -44,6 +45,7 @@ const Register = () => {
 
       dispatch(presentToast({ message, type: TOAST_TYPES.SUCCESS }))
       reset()
+      navigate(`/${UIRoutes.HOME}`)
     } catch (error) {
       dispatch(presentToast({ message: apiService.getErrorMessage(error as Error), type: TOAST_TYPES.ERROR }))
     }

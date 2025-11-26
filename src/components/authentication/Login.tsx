@@ -1,10 +1,11 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { UIRoutes } from "../../constants";
+import { BackendRoutes, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
+import { apiService } from "../../services/api.service";
 
 interface LoginFormData {
   email: string;
@@ -19,13 +20,23 @@ const Login = () => {
     reset
   } = useForm<LoginFormData>();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    console.log("Login Data:", data);
-    reset();
-    dispatch(presentToast({ message: 'Login successful', type: TOAST_TYPES.SUCCESS }))
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+    try {
+      const { data: res } = await apiService.post(BackendRoutes.LOGIN, data, { withCredentials: true });
+      const { accessToken } = res.data;
+
+      localStorage.setItem("accessToken", accessToken);
+      reset();
+
+      navigate(`/${UIRoutes.HOME}`)
+      dispatch(presentToast({ message: 'Login successful', type: TOAST_TYPES.SUCCESS }))
+    } catch (error) {
+      dispatch(presentToast({ message: apiService.getErrorMessage(error as Error), type: TOAST_TYPES.ERROR }))
+    }
   };
 
   return (
