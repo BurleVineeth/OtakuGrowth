@@ -17,7 +17,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<LoginFormData>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,35 +26,38 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      const { data: res } = await apiService.post(BackendRoutes.LOGIN, data, { withCredentials: true });
+      const { data: res } = await apiService.post(BackendRoutes.LOGIN, data, {
+        withCredentials: true,
+      });
       const { accessToken } = res.data;
 
       localStorage.setItem("accessToken", accessToken);
       reset();
 
-      navigate(`/${UIRoutes.HOME}`)
-      dispatch(presentToast({ message: 'Login successful', type: TOAST_TYPES.SUCCESS }))
+      navigate(`/${UIRoutes.HOME}`);
+      dispatch(presentToast({ message: "Login successful", type: TOAST_TYPES.SUCCESS }));
     } catch (error) {
-      dispatch(presentToast({ message: apiService.getErrorMessage(error as Error), type: TOAST_TYPES.ERROR }))
+      dispatch(
+        presentToast({
+          message: apiService.getErrorMessage(error as Error),
+          type: TOAST_TYPES.ERROR,
+        })
+      );
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0d0d0f] px-4 py-8">
       <div className="w-full max-w-md bg-[#16161a] shadow-xl rounded-2xl p-8 border border-[#222]">
-
         {/* Title */}
         <h1 className="text-3xl font-semibold text-white text-center">
           <span className="text-purple-400">Otaku</span>Growth
         </h1>
 
-        <p className="text-gray-400 text-center text-sm mt-1">
-          “Surpass your yesterday self.”
-        </p>
+        <p className="text-gray-400 text-center text-sm mt-1">“Surpass your yesterday self.”</p>
 
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
-
           {/* Email */}
           <div>
             <label className="text-gray-300 text-sm">Email</label>
@@ -64,9 +67,7 @@ const Login = () => {
               className="w-full mt-1 px-4 py-2 bg-[#1d1d22] text-white rounded-xl border border-[#333] focus:ring-2 focus:ring-purple-500 outline-none"
               placeholder="you@example.com"
             />
-            {errors.email && (
-              <p className="text-sm text-red-400 mt-1">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="text-sm text-red-400 mt-1">{errors.email.message}</p>}
           </div>
 
           {/* Password + Eye Icon */}
@@ -115,6 +116,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

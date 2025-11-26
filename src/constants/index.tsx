@@ -1,2 +1,2 @@
-export * from './backendRoutes';
-export * from './routes';
+export * from "./backendRoutes";
+export * from "./routes";

@@ -1,25 +1,24 @@
-import { RouterProvider } from 'react-router-dom';
-import './App.css';
-import router from './router/router';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppState } from './redux/store';
-import { useEffect } from 'react';
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
+import router from "./router/router";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppState } from "./redux/store";
+import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { clearToast } from './redux/features/ToastSlice';
+import { clearToast } from "./redux/features/ToastSlice";
 
 function App() {
   const toaster = useSelector(({ toast }: AppState) => toast);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (toaster.message) {
       toast(toaster.message, {
-        type: toaster.type
+        type: toaster.type,
       });
       dispatch(clearToast());
     }
-  }, [dispatch, toaster])
+  }, [dispatch, toaster]);
 
   return (
     <>
@@ -36,9 +35,8 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-
     </>
-  )
+  );
 }
 
-export default App
+export default App;

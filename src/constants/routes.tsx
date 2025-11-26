@@ -1,6 +1,6 @@
 export const UIRoutes = {
   ROOT: "/",
-  LOGIN: 'login',
-  REGISTER: 'register',
-  HOME: 'home',
-}
+  LOGIN: "login",
+  REGISTER: "register",
+  HOME: "home",
+};

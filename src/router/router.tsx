@@ -1,6 +1,4 @@
-import {
-  createBrowserRouter,
-} from "react-router";
+import { createBrowserRouter } from "react-router";
 import { UIRoutes } from "../constants";
 import NotFound from "../components/NotFound";
 import { Login, Register } from "../components/authentication";
@@ -24,9 +22,9 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: '*',
-    element: <NotFound />
-  }
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 export default router;

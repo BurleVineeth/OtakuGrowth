@@ -21,9 +21,9 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    reset
+    reset,
   } = useForm<RegisterForm>({
-    criteriaMode: 'all'
+    criteriaMode: "all",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -37,17 +37,22 @@ const Register = () => {
   const onSubmit = async ({ confirmPassword: _, ...data }: RegisterForm) => {
     try {
       const { data: res } = await apiService.post(BackendRoutes.USERS, data, {
-        withCredentials: true
+        withCredentials: true,
       });
 
       const { accessToken, message } = res.data;
       localStorage.setItem("accessToken", accessToken);
 
-      dispatch(presentToast({ message, type: TOAST_TYPES.SUCCESS }))
-      reset()
-      navigate(`/${UIRoutes.HOME}`)
+      dispatch(presentToast({ message, type: TOAST_TYPES.SUCCESS }));
+      reset();
+      navigate(`/${UIRoutes.HOME}`);
     } catch (error) {
-      dispatch(presentToast({ message: apiService.getErrorMessage(error as Error), type: TOAST_TYPES.ERROR }))
+      dispatch(
+        presentToast({
+          message: apiService.getErrorMessage(error as Error),
+          type: TOAST_TYPES.ERROR,
+        })
+      );
     }
   };
 
@@ -60,7 +65,6 @@ const Register = () => {
         </h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-
           {/* USERNAME */}
           <div>
             <label className="text-sm text-gray-300">User Name</label>
@@ -77,9 +81,7 @@ const Register = () => {
               focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
               placeholder="Enter a username"
             />
-            {errors.name && (
-              <p className="text-sm text-red-400 mt-1">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="text-sm text-red-400 mt-1">{errors.name.message}</p>}
           </div>
 
           {/* EMAIL */}
@@ -98,9 +100,7 @@ const Register = () => {
               focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
               placeholder="Enter your email"
             />
-            {errors.email && (
-              <p className="text-sm text-red-400 mt-1">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="text-sm text-red-400 mt-1">{errors.email.message}</p>}
           </div>
 
           {/* PASSWORD */}
@@ -117,11 +117,11 @@ const Register = () => {
                     message: "At least 8 characters",
                   },
                   validate: {
-                    hasUpper: v => /[A-Z]/.test(v) || "One uppercase letter",
-                    hasLower: v => /[a-z]/.test(v) || "One lowercase letter",
-                    hasNumber: v => /\d/.test(v) || "One number",
-                    hasSpecial: v => /[@$!%*?&]/.test(v) || "One special character",
-                  }
+                    hasUpper: (v) => /[A-Z]/.test(v) || "One uppercase letter",
+                    hasLower: (v) => /[a-z]/.test(v) || "One lowercase letter",
+                    hasNumber: (v) => /\d/.test(v) || "One number",
+                    hasSpecial: (v) => /[@$!%*?&]/.test(v) || "One special character",
+                  },
                 })}
                 className="w-full mt-1 px-3 py-2 pr-10 bg-neutral-800 border border-neutral-700
                  rounded-md text-gray-200 placeholder-gray-500 
@@ -149,7 +149,6 @@ const Register = () => {
             )}
           </div>
 
-
           {/* CONFIRM PASSWORD */}
           <div>
             <label className="text-sm text-gray-300">Confirm Password</label>
@@ -158,8 +157,7 @@ const Register = () => {
                 type={showConfirmPassword ? "text" : "password"}
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
-                  validate: (value) =>
-                    value === passwordValue || "Passwords do not match",
+                  validate: (value) => value === passwordValue || "Passwords do not match",
                 })}
                 className="w-full mt-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-md text-gray-200 placeholder-gray-500 
                 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
@@ -176,9 +174,7 @@ const Register = () => {
             </div>
           </div>
           {errors.confirmPassword && (
-            <p className="text-sm text-red-400 mt-1">
-              {errors.confirmPassword.message}
-            </p>
+            <p className="text-sm text-red-400 mt-1">{errors.confirmPassword.message}</p>
           )}
 
           {/* SUBMIT BUTTON */}
@@ -188,7 +184,6 @@ const Register = () => {
           >
             Register
           </button>
-
         </form>
 
         {/* LINK TO LOGIN */}
@@ -198,7 +193,6 @@ const Register = () => {
             Login
           </Link>
         </p>
-
       </div>
     </div>
   );

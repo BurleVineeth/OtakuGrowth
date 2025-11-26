@@ -43,7 +43,7 @@ class ApiService {
             return this.axiosInstance(originalRequest);
           } catch (refreshError) {
             localStorage.removeItem("accessToken");
-            window.location.href = '/login';
+            window.location.href = "/login";
             return Promise.reject(refreshError);
           }
         }
@@ -64,7 +64,9 @@ class ApiService {
   public getErrorMessage(error: Error) {
     return axios.isAxiosError(error)
       ? error.response?.data?.message
-      : typeof error.message === 'string' ? error.message : 'Unexpected Error';
+      : typeof error.message === "string"
+        ? error.message
+        : "Unexpected Error";
   }
 }
 
