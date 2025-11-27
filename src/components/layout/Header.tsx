@@ -4,12 +4,47 @@ import { useState } from "react";
 import { useTheme, type Theme } from "../../context/ThemeContext";
 import Dropdown from "../ui/DropDown";
 import MobileSidebar from "./MobileSidebar";
+import { BackendRoutes, LocalStorageKeys, UIRoutes } from "../../constants";
+import { useDispatch } from "react-redux";
+import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
+import { apiService } from "../../services/api.service";
+import { useNavigate } from "react-router-dom";
+import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
 
 const themeOptions: { id: Theme; label: string }[] = [{ id: "purple", label: "Purple" }];
 
 export default function Header() {
   const { setTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    try {
+      dispatch(showLoading());
+
+      const { data: res } = await apiService.post(BackendRoutes.LOGOUT);
+      localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
+
+      navigate(`/${UIRoutes.LOGIN}`);
+      dispatch(
+        presentToast({
+          message: res.message,
+          type: TOAST_TYPES.SUCCESS,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        presentToast({
+          message: apiService.getErrorMessage(error as Error),
+          type: TOAST_TYPES.ERROR,
+        })
+      );
+    } finally {
+      dispatch(dismissLoading());
+    }
+  };
 
   return (
     <>
@@ -75,7 +110,10 @@ export default function Header() {
                 Settings
               </button>
 
-              <button className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition">
+              <button
+                className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition"
+                onClick={logout}
+              >
                 <FiLogOut className="text-lg" />
                 Logout
               </button>

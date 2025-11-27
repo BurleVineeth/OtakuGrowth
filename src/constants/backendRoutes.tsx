@@ -3,4 +3,5 @@ export const BackendRoutes = {
   REFRESH: "refresh",
   USER: "user",
   USERS: "users",
+  LOGOUT: "logout",
 };
