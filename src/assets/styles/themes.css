@@ -1,0 +1,56 @@
+/* --------------------------------------------------------
+   GLOBAL BASE COLORS (DARK MODE)
+-------------------------------------------------------- */
+:root {
+  /* Backgrounds */
+  --bg: #000000;
+  --bg-secondary: #0a0a0a;
+  --card-bg: #111111;
+
+  /* Text Colors */
+  --text: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-muted: #8a8a8a;
+
+  /* Border */
+  --border: #2a2a2a;
+
+  /* Primary Theme Color (Default: Purple) */
+  --primary: #a855f7;
+  /* main brand color */
+  --primary-light: #c084fc;
+  --accent: #7e22ce;
+
+  /* Status Colors */
+  --success: #22c55e;
+  --warning: #facc15;
+  --danger: #ef4444;
+  --info: #3b82f6;
+
+  /* Shadows */
+  --shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+}
+
+/* --------------------------------------------------------
+   THEME VARIANTS
+-------------------------------------------------------- */
+
+/* Purple Theme */
+.theme-purple {
+  --bg: #000000;
+  --bg-secondary: #0a0a0a;
+  --card-bg: #111111;
+
+  --text: #ffffff;
+  --text-secondary: #b3b3b3;
+
+  --border: #2a2a2a;
+
+  --primary: #a855f7;
+  --accent: #7e22ce;
+
+  --primary-light: #c084fc;
+  --primary-dark: #6b21a8;
+
+  --shadow: 0 0 15px rgba(168, 85, 247, 0.28);
+}
