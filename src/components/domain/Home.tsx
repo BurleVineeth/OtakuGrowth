@@ -1,9 +1,16 @@
+import { useSelector } from "react-redux";
+import type { AppState } from "../../redux/store";
+
 const Home = () => {
+  const user = useSelector(({ user }: AppState) => user);
+
   return (
     <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text)] p-4 pt-20">
       {/* Greeting Section */}
       <section className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--text)]">Welcome back, Warrior! ⚔️</h1>
+        <h1 className="text-2xl font-bold text-[var(--text)]">
+          Welcome back, {user ? user.name : "Warrior"}! ⚔️
+        </h1>
         <p className="text-[var(--text-secondary)] mt-1">Ready to conquer today's tasks?</p>
       </section>
 

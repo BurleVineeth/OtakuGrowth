@@ -56,23 +56,40 @@ export default function Header() {
             onClick={() => setSidebarOpen(true)}
           />
 
-          <h1 className="font-semibold flex items-end gap-1 leading-none">
-            <span className="text-3xl tracking-wide">Otaku</span>
-            <span className="text-xl opacity-90">Growth</span>
-          </h1>
+          {/* TITLE + NAV WRAPPER */}
+          <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+            <h1
+              onClick={() => navigate(`/`)}
+              className="font-semibold flex items-baseline gap-1 leading-none cursor-pointer"
+            >
+              <span className="text-3xl tracking-wide">Otaku</span>
+              <span className="text-xl opacity-90">Growth</span>
+            </h1>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-baseline gap-6 text-[15px] font-medium">
+              <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
+                My Tasks
+              </button>
+              <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
+                Library
+              </button>
+              <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
+                Work
+              </button>
+              <button
+                onClick={() => navigate(`/${UIRoutes.ABOUT}`)}
+                className="hover:text-[var(--text-secondary)] transition cursor-pointer"
+              >
+                About
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* RIGHT CONTENT */}
         <div className="flex items-center gap-6">
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6 text-[15px] font-medium">
-            <button className="hover:text-[var(--text-secondary)] transition">My Tasks</button>
-            <button className="hover:text-[var(--text-secondary)] transition">Library</button>
-            <button className="hover:text-[var(--text-secondary)] transition">Work</button>
-
-            <FiTrendingUp className="text-2xl cursor-pointer hover:brightness-90 transition" />
-          </nav>
-
+          <FiTrendingUp className="hidden md:flex text-2xl cursor-pointer hover:brightness-90 transition" />
           {/* Theme Selector */}
           <Dropdown
             trigger={

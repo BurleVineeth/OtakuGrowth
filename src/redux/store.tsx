@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ToastReducer from "./features/ToastSlice";
-import LoaderReducer from "./features/LoaderSlice";
-import UserReducer from "./features/UserSlice";
+import ToastReducer, { type ToastInitialState } from "./features/ToastSlice";
+import LoaderReducer, { type LoaderInitialState } from "./features/LoaderSlice";
+import UserReducer, { type UserInitialState } from "./features/UserSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,5 +11,9 @@ export const store = configureStore({
   },
 });
 
-export type AppState = ReturnType<typeof store.getState>;
+export type AppState = {
+  loader: LoaderInitialState;
+  toast: ToastInitialState;
+  user: UserInitialState | null;
+};
 export type AppDispatch = typeof store.dispatch;

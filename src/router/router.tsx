@@ -1,11 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { UIRoutes } from "../constants";
 import { Login, Register } from "../components/authentication";
-import RootLayout from "../components/domain/RootLayout";
-import PublicLayout from "../components/domain/PublicLayout";
-import PrivateLayout from "../components/domain/PrivateLayout";
-import { Home } from "../components/domain";
+import RootLayout from "../components/layout/RootLayout";
+import PublicLayout from "../components/layout/PublicLayout";
+import { About, Home } from "../components/domain";
 import NotFound from "../components/ui/NotFound";
+import PrivateLayout from "../components/layout/PrivateLayout";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
         element: <PrivateLayout />,
         children: [
           { path: UIRoutes.HOME, element: <Home /> },
+          { path: UIRoutes.ABOUT, element: <About /> },
           { path: UIRoutes.ROOT, element: <Navigate to={UIRoutes.HOME} replace /> },
         ],
       },
