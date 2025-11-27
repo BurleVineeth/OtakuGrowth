@@ -6,6 +6,7 @@ import { BackendRoutes, LocalStorageKeys, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
+import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
 
 interface LoginFormData {
   email: string;
@@ -26,6 +27,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
+      dispatch(showLoading());
       const { data: res } = await apiService.post(BackendRoutes.LOGIN, data, {
         withCredentials: true,
       });
@@ -43,6 +45,8 @@ const Login = () => {
           type: TOAST_TYPES.ERROR,
         })
       );
+    } finally {
+      dispatch(dismissLoading());
     }
   };
 

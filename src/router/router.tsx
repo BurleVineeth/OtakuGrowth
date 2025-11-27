@@ -1,11 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { UIRoutes } from "../constants";
-import NotFound from "../components/NotFound";
 import { Login, Register } from "../components/authentication";
 import RootLayout from "../components/domain/RootLayout";
 import PublicLayout from "../components/domain/PublicLayout";
 import PrivateLayout from "../components/domain/PrivateLayout";
 import { Home } from "../components/domain";
+import NotFound from "../components/ui/NotFound";
 
 const router = createBrowserRouter([
   {

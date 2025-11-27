@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
 import { BackendRoutes } from "../../constants";
+import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
 
 type RegisterForm = {
   name: string;
@@ -36,6 +37,7 @@ const Register = () => {
 
   const onSubmit = async ({ confirmPassword: _, ...data }: RegisterForm) => {
     try {
+      dispatch(showLoading());
       const { data: res } = await apiService.post(BackendRoutes.USERS, data, {
         withCredentials: true,
       });
@@ -53,6 +55,8 @@ const Register = () => {
           type: TOAST_TYPES.ERROR,
         })
       );
+    } finally {
+      dispatch(dismissLoading());
     }
   };
 
