@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -17,7 +17,9 @@ interface EditProfileFormData {
   name: string;
   email: string;
   bio: string;
-  image: string;
+  url: string;
+  public_id: string;
+  fileType: string;
 }
 
 interface EditProfileModalProps {
@@ -34,16 +36,20 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
     watch,
     formState: { errors, isDirty },
     reset,
+    getValues,
   } = useForm<EditProfileFormData>({
     defaultValues: {
       name: user?.name ?? "",
       email: user?.email ?? "",
       bio: user?.bio ?? "",
-      image: user?.image ?? "",
+      url: user?.url ?? "",
+      public_id: user?.public_id ?? "",
+      fileType: user?.fileType ?? "",
     },
   });
 
-  const image = watch("image");
+  const image = watch("url");
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,7 +58,9 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
         name: user?.name ?? "",
         email: user?.email ?? "",
         bio: user?.bio ?? "",
-        image: user?.image ?? "",
+        url: user?.url ?? "",
+        public_id: user?.public_id ?? "",
+        fileType: user?.fileType ?? "",
       });
     }
   }, [open, user, reset]);
@@ -62,6 +70,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
     if (!open) return;
 
     document.body.style.overflow = "hidden";
+    setSelectedImage(null);
     return () => {
       document.body.style.overflow = "";
     };
@@ -74,11 +83,20 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
     if (!file) return;
 
     const url = URL.createObjectURL(file);
-    setValue("image", url);
+
+    setSelectedImage(file);
+    setValue("url", url);
+  };
+
+  const removePhoto = () => {
+    setValue("url", "");
+    setSelectedImage(null);
   };
 
   const onSubmit = async (data: EditProfileFormData) => {
-    if (!isDirty) {
+    const isImageChanged = (user.url || getValues("url")) && user.url !== getValues("url");
+
+    if (!isDirty && !selectedImage && !isImageChanged) {
       dispatch(
         presentToast({
           message: "No changes to update",
@@ -91,9 +109,25 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
 
     try {
       dispatch(showLoading());
+
+      const getImageInfo = async (imageFile: File | null) => {
+        const formData = new FormData();
+        if (imageFile) formData.append("file", imageFile);
+        if (user.public_id) formData.append("old_public_id", user.public_id);
+
+        return apiService.post(BackendRoutes.REPLACE_FILE, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+          withCredentials: true,
+        });
+      };
+
+      const imageInfo =
+        selectedImage || isImageChanged ? (await getImageInfo(selectedImage)).data.data : {};
+
       const { data: res } = await apiService.post(BackendRoutes.UPDATE_USER, {
         _id: user._id,
         ...data,
+        ...imageInfo,
       });
 
       onClose();
@@ -156,10 +190,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
           </label>
 
           {image && (
-            <button
-              onClick={() => setValue("image", "")}
-              className="text-xs text-red-400 mt-1 hover:underline"
-            >
+            <button onClick={removePhoto} className="text-xs text-red-400 mt-1 hover:underline">
               Remove Photo
             </button>
           )}

@@ -5,4 +5,7 @@ export const BackendRoutes = {
   USERS: "users",
   LOGOUT: "logout",
   UPDATE_USER: "updateUser",
+  UPLOAD: "upload",
+  DELETE_FILE: "deleteFile",
+  REPLACE_FILE: "replaceFile",
 };

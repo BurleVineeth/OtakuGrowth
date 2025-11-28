@@ -17,7 +17,7 @@ export default function Profile() {
                       border border-[var(--border)] hover:shadow-lg transition-all"
       >
         <img
-          src="https://i1.sndcdn.com/artworks-id2NlcBPktu4bz9o-BfaBvA-t500x500.jpg"
+          src={user?.url || "https://i1.sndcdn.com/artworks-id2NlcBPktu4bz9o-BfaBvA-t500x500.jpg"}
           alt="avatar"
           className="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary)] shadow-md"
         />

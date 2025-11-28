@@ -5,7 +5,9 @@ export interface UserInitialState {
   email: string;
   name: string;
   bio?: string;
-  image?: string;
+  url?: string;
+  public_id?: string;
+  fileType?: string;
 }
 
 const initialState: UserInitialState | null = null;
