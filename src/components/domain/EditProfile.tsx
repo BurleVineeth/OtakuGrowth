@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { apiService } from "../../services/api.service";
-import { BackendRoutes } from "../../constants";
+import { BackendRoutes, StaticImageUrls } from "../../constants";
 import {
   dismissLoading,
   presentToast,
@@ -179,7 +179,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
         {/* Avatar */}
         <div className="w-full flex flex-col items-center mb-4">
           <img
-            src={image || "https://i1.sndcdn.com/artworks-id2NlcBPktu4bz9o-BfaBvA-t500x500.jpg"}
+            src={image || StaticImageUrls.DEFAULT_PROFILE}
             alt="avatar"
             className="w-24 h-24 rounded-full border-2 border-[var(--primary)] object-cover mb-3"
           />
@@ -190,7 +190,10 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
           </label>
 
           {image && (
-            <button onClick={removePhoto} className="text-xs text-red-400 mt-1 hover:underline">
+            <button
+              onClick={removePhoto}
+              className="text-xs text-red-400 mt-1 hover:underline cursor-pointer"
+            >
               Remove Photo
             </button>
           )}

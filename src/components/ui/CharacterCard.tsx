@@ -17,7 +17,7 @@ export default function CharacterCard({ img, reverse = false, center = false, ch
         <img
           src={img}
           alt="Character"
-          className={`w-full h-64 ${center ? "object-contain" : "md:w-1/3 object-cover"}`}
+          className={`w-full h-64 ${center ? "object-contain" : "object-contain md:w-1/3"}`}
         />
 
         {/* Content from parent */}

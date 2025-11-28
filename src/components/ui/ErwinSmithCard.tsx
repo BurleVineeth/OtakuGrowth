@@ -1,11 +1,9 @@
+import { StaticImageUrls } from "../../constants";
 import CharacterCard from "./CharacterCard";
 
 export default function ErwinSmithCard() {
   return (
-    <CharacterCard
-      img="https://wallpapers.com/images/hd/shocked-erwin-smith-expression-gdwkmjz5xxf5f1x5.jpg"
-      center
-    >
+    <CharacterCard img={StaticImageUrls.ERWIN_SMITH} center>
       {" "}
       <p className="italic text-[var(--text-secondary)] text-lg leading-relaxed space-y-4">
         <span className="block">

@@ -1,11 +1,9 @@
+import { StaticImageUrls } from "../../constants";
 import CharacterCard from "./CharacterCard";
 
 export default function GokuCard() {
   return (
-    <CharacterCard
-      img="https://wallpapers.com/images/hd/goku-black-1920-x-1080-background-oi481forocvatchl.jpg"
-      reverse
-    >
+    <CharacterCard img={StaticImageUrls.GOKU} reverse>
       <p className="italic text-[var(--text-secondary)] text-m leading-relaxed">
         “If the world tells you to stop, laugh and keep walking. Your dream belongs to you, not to
         them.”

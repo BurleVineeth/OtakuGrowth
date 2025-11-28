@@ -1,11 +1,9 @@
+import { StaticImageUrls } from "../../constants";
 import CharacterCard from "./CharacterCard";
 
 export default function IsagiCard() {
   return (
-    <CharacterCard
-      img="https://cdn.inspireuplift.com/uploads/images/seller_products/1700907989_IsagiYoichi-BlueLockInJapanese.png"
-      reverse
-    >
+    <CharacterCard img={StaticImageUrls.ISAGE} reverse>
       <p className="italic text-[var(--text-secondary)] text-m leading-relaxed">
         “Ego isn’t about being the best. It’s about refusing to stay the same.”
       </p>

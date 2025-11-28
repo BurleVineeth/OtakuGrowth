@@ -1,8 +1,9 @@
+import { StaticImageUrls } from "../../constants";
 import CharacterCard from "./CharacterCard";
 
 export default function LuffyCard() {
   return (
-    <CharacterCard img="https://images6.alphacoders.com/135/1351163.png">
+    <CharacterCard img={StaticImageUrls.LUFFY}>
       <p className="italic text-[var(--text-secondary)] text-m leading-relaxed">
         “If the world tells you to stop, laugh and keep walking. Your dream belongs to you, not to
         them.”

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import type { AppState } from "../../redux/store";
 import { useState } from "react";
 import EditProfileModal from "./EditProfile";
+import { StaticImageUrls } from "../../constants";
 
 export default function Profile() {
   const user = useSelector(({ user }: AppState) => user);
@@ -17,7 +18,7 @@ export default function Profile() {
                       border border-[var(--border)] hover:shadow-lg transition-all"
       >
         <img
-          src={user?.url || "https://i1.sndcdn.com/artworks-id2NlcBPktu4bz9o-BfaBvA-t500x500.jpg"}
+          src={user?.url || StaticImageUrls.DEFAULT_PROFILE}
           alt="avatar"
           className="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary)] shadow-md"
         />
