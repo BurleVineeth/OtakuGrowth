@@ -4,9 +4,8 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { BackendRoutes, LocalStorageKeys, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
-import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
-import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
+import { dismissLoading, presentToast, showLoading, TOAST_TYPES } from "../../redux/features";
 
 interface LoginFormData {
   email: string;
@@ -67,7 +66,7 @@ const Login = () => {
             <label className="text-gray-300 text-sm">Email</label>
             <input
               type="email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", { required: "Email is required", setValueAs: (v) => v.trim() })}
               className="w-full mt-1 px-4 py-2 bg-[#1d1d22] text-white rounded-xl border border-[#333] focus:ring-2 focus:ring-purple-500 outline-none"
               placeholder="you@example.com"
             />
@@ -81,7 +80,10 @@ const Login = () => {
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
-                {...register("password", { required: "Password is required" })}
+                {...register("password", {
+                  required: "Password is required",
+                  setValueAs: (v) => v.trim(),
+                })}
                 className="w-full mt-1 px-4 py-2 bg-[#1d1d22] text-white rounded-xl border border-[#333] focus:ring-2 focus:ring-purple-500 outline-none pr-12"
                 placeholder="••••••••"
               />

@@ -2,11 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserInitialState {
   _id: string;
-  createdAt: Date;
   email: string;
   name: string;
-  password: string;
-  updatedAt: Date;
+  bio?: string;
+  image?: string;
 }
 
 const initialState: UserInitialState | null = null;
@@ -23,4 +22,4 @@ const UserSlice = createSlice({
 });
 
 export const { setUser, clearUser } = UserSlice.actions;
-export default UserSlice.reducer;
+export const UserReducer = UserSlice.reducer;

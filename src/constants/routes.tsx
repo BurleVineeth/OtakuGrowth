@@ -4,4 +4,5 @@ export const UIRoutes = {
   REGISTER: "register",
   HOME: "home",
   ABOUT: "about",
+  PROFILE: "profile",
 };

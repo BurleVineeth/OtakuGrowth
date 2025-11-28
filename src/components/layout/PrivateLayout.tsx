@@ -5,17 +5,18 @@ import "../../assets/styles/themes.css";
 import { ThemeProvider } from "../../context/ThemeContext";
 import { useEffect } from "react";
 import { apiService } from "../../services/api.service";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/features/UserSlice";
-import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { dismissLoading, setUser, showLoading } from "../../redux/features";
+import type { AppState } from "../../redux/store";
 
 const PrivateLayout = () => {
   const accessToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userRefetchTrigger = useSelector(({ userRefetch }: AppState) => userRefetch.trigger);
 
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken || userRefetchTrigger) {
       dispatch(showLoading());
       apiService
         .get(BackendRoutes.USER)
@@ -30,7 +31,7 @@ const PrivateLayout = () => {
           dispatch(dismissLoading());
         });
     }
-  }, [accessToken, dispatch, navigate]);
+  }, [accessToken, dispatch, navigate, userRefetchTrigger]);
 
   if (!accessToken) {
     return <Navigate to={`/${UIRoutes.LOGIN}`} replace />;

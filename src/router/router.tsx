@@ -6,6 +6,7 @@ import PublicLayout from "../components/layout/PublicLayout";
 import { About, Home } from "../components/domain";
 import NotFound from "../components/ui/NotFound";
 import PrivateLayout from "../components/layout/PrivateLayout";
+import Profile from "../components/domain/Profile";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
         children: [
           { path: UIRoutes.HOME, element: <Home /> },
           { path: UIRoutes.ABOUT, element: <About /> },
+          { path: UIRoutes.PROFILE, element: <Profile /> },
           { path: UIRoutes.ROOT, element: <Navigate to={UIRoutes.HOME} replace /> },
         ],
       },

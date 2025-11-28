@@ -22,9 +22,6 @@ export default defineConfig([
     },
 
     rules: {
-      // allow barrel files to export *
-      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-
       // ⬇️ Ignore unused variables that start with "_"
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -39,7 +36,7 @@ export default defineConfig([
 
   // Disable rule only for barrel files
   {
-    files: ["**/index.{ts,tsx}"],
+    files: ["**"],
     rules: {
       "react-refresh/only-export-components": "off",
     },

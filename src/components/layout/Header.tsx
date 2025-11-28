@@ -6,10 +6,16 @@ import Dropdown from "../ui/DropDown";
 import MobileSidebar from "./MobileSidebar";
 import { BackendRoutes, LocalStorageKeys, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
-import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
 import { useNavigate } from "react-router-dom";
-import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
+import {
+  clearUser,
+  dismissLoading,
+  presentToast,
+  resetUserTrigger,
+  showLoading,
+  TOAST_TYPES,
+} from "../../redux/features";
 
 const themeOptions: { id: Theme; label: string }[] = [{ id: "purple", label: "Purple" }];
 
@@ -26,6 +32,9 @@ export default function Header() {
 
       const { data: res } = await apiService.post(BackendRoutes.LOGOUT);
       localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN);
+      localStorage.removeItem(LocalStorageKeys.THEME);
+      dispatch(resetUserTrigger());
+      dispatch(clearUser());
 
       navigate(`/${UIRoutes.LOGIN}`);
       dispatch(
@@ -117,7 +126,10 @@ export default function Header() {
             trigger={<FiUser className="text-2xl cursor-pointer hover:brightness-90 transition" />}
           >
             <div className="flex flex-col gap-2">
-              <button className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--bg-secondary)] transition">
+              <button
+                onClick={() => navigate(`/${UIRoutes.PROFILE}`)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--bg-secondary)] transition"
+              >
                 <FiUser className="text-lg" />
                 Profile
               </button>

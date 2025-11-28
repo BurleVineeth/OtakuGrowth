@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppState } from "../../redux/store";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { clearToast } from "../../redux/features/ToastSlice";
 import { Outlet } from "react-router-dom";
 import Loader from "../ui/Loader";
+import { clearToast } from "../../redux/features";
 
 const RootLayout = () => {
   const toaster = useSelector(({ toast }: AppState) => toast);

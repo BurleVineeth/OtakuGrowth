@@ -22,4 +22,4 @@ const LoaderSlice = createSlice({
 });
 
 export const { showLoading, dismissLoading } = LoaderSlice.actions;
-export default LoaderSlice.reducer;
+export const LoaderReducer = LoaderSlice.reducer;

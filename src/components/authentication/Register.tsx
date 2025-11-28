@@ -4,10 +4,9 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { LocalStorageKeys, UIRoutes } from "../../constants";
 import { useDispatch } from "react-redux";
-import { presentToast, TOAST_TYPES } from "../../redux/features/ToastSlice";
 import { apiService } from "../../services/api.service";
 import { BackendRoutes } from "../../constants";
-import { dismissLoading, showLoading } from "../../redux/features/LoaderSlice";
+import { dismissLoading, presentToast, showLoading, TOAST_TYPES } from "../../redux/features";
 
 type RegisterForm = {
   name: string;
@@ -80,6 +79,11 @@ const Register = () => {
                   value: 3,
                   message: "Username must be at least 3 characters",
                 },
+                maxLength: {
+                  value: 30,
+                  message: "Username cannot exceed 30 characters",
+                },
+                setValueAs: (v) => v.trim(),
               })}
               className="w-full mt-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-md text-gray-200 placeholder-gray-500 
               focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
@@ -99,6 +103,7 @@ const Register = () => {
                   value: /^\S+@\S+$/i,
                   message: "Invalid email address",
                 },
+                setValueAs: (v) => v.trim(),
               })}
               className="w-full mt-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-md text-gray-200 placeholder-gray-500 
               focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
@@ -126,6 +131,7 @@ const Register = () => {
                     hasNumber: (v) => /\d/.test(v) || "One number",
                     hasSpecial: (v) => /[@$!%*?&]/.test(v) || "One special character",
                   },
+                  setValueAs: (v) => v.trim(),
                 })}
                 className="w-full mt-1 px-3 py-2 pr-10 bg-neutral-800 border border-neutral-700
                  rounded-md text-gray-200 placeholder-gray-500 
@@ -162,6 +168,7 @@ const Register = () => {
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) => value === passwordValue || "Passwords do not match",
+                  setValueAs: (v) => v.trim(),
                 })}
                 className="w-full mt-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-md text-gray-200 placeholder-gray-500 
                 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
