@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ModuleSchema, type ModuleType } from "./types";
+import { ModuleSchema, SkillDifficulty, type ModuleType } from "./types";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppState } from "@/redux/store";
@@ -26,7 +26,7 @@ export default function AddSkillModuleForm() {
     defaultValues: {
       name: "",
       description: "",
-      difficulty: "beginner",
+      difficulty: SkillDifficulty.BEGINNER,
       category: "",
       coverPhoto: "",
     },

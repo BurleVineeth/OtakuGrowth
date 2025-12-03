@@ -68,7 +68,7 @@ export default function Header() {
           {/* TITLE + NAV WRAPPER */}
           <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
             <h1
-              onClick={() => navigate(`/`)}
+              onClick={() => navigate(`/${UIRoutes.HOME}`)}
               className="font-semibold flex items-baseline gap-1 leading-none cursor-pointer"
             >
               <span className="text-3xl tracking-wide">Otaku</span>

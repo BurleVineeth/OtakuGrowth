@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
   LoaderReducer,
+  SkillsReducer,
   ToastReducer,
   UserReducer,
   UserRefetchReducer,
   type LoaderInitialState,
+  type SkillsInitialState,
   type ToastInitialState,
   type UserInitialState,
   type UserRefetchInitialState,
@@ -16,6 +18,7 @@ export const store = configureStore({
     toast: ToastReducer,
     user: UserReducer,
     userRefetch: UserRefetchReducer,
+    skills: SkillsReducer,
   },
 });
 
@@ -24,6 +27,7 @@ export type AppState = {
   toast: ToastInitialState;
   user: UserInitialState | null;
   userRefetch: UserRefetchInitialState;
+  skills: SkillsInitialState;
 };
 
 export type AppDispatch = typeof store.dispatch;

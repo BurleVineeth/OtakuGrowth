@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+export enum SkillDifficulty {
+  BEGINNER = "beginner",
+  INTERMEDIATE = "intermediate",
+  ADVANCED = "advanced",
+}
+
 export const ModuleSchema = z.object({
   name: z
     .string()
@@ -18,7 +24,7 @@ export const ModuleSchema = z.object({
     .nonempty("🔥 Every skill belongs to a discipline. Choose one!")
     .max(50, "🔥 Category must be 50 characters or less!"),
 
-  difficulty: z.enum(["beginner", "intermediate", "advanced"], {
+  difficulty: z.enum(SkillDifficulty, {
     error: "⚙️ Select a valid difficulty level!",
   }),
 

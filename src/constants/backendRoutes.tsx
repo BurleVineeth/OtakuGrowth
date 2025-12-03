@@ -9,4 +9,5 @@ export const BackendRoutes = {
   DELETE_FILE: "deleteFile",
   REPLACE_FILE: "replaceFile",
   ADD_SKILL: "addSkill",
+  GET_SKILLS: "getSkills",
 };
