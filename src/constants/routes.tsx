@@ -5,4 +5,5 @@ export const UIRoutes = {
   HOME: "home",
   ABOUT: "about",
   PROFILE: "profile",
+  TASK_INTAKE_WIZARD: "task-intake-wizard",
 };

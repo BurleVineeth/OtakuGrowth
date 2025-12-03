@@ -52,5 +52,21 @@
   --primary-light: #c084fc;
   --primary-dark: #6b21a8;
 
+  --disabled: #444444;
+  --disabled-text: #cccccc;
+
+  --progress-bg: #1a1a1a;
+
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --error: #f87171;
+
+  --option-border: #2a2a2a;
+
+  --time-input-bg: rgba(255, 255, 255, 0.05);
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
+
+  --summary-bg: rgba(255, 255, 255, 0.05);
+
   --shadow: 0 0 15px rgba(168, 85, 247, 0.28);
 }

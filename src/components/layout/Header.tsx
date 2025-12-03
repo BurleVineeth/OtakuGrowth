@@ -57,7 +57,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-full bg-[var(--primary)] text-[var(--text)] px-4 py-3 flex items-center justify-between shadow-md">
+      <header className="w-full bg-[var(--primary)] text-[var(--text)] px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
         {/* LEFT → LOGO + MENU */}
         <div className="flex items-center gap-3">
           <FiMenu
@@ -77,8 +77,11 @@ export default function Header() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-baseline gap-6 text-[15px] font-medium">
-              <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
-                My Tasks
+              <button
+                onClick={() => navigate(`/${UIRoutes.TASK_INTAKE_WIZARD}`)}
+                className="hover:text-[var(--text-secondary)] transition cursor-pointer"
+              >
+                Task Intake Wizard
               </button>
               <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
                 Library

@@ -7,6 +7,7 @@ import { About, Home } from "../components/domain";
 import NotFound from "../components/ui/NotFound";
 import PrivateLayout from "../components/layout/PrivateLayout";
 import Profile from "../components/domain/Profile";
+import TaskIntakeWizard from "../components/domain/TaskIntakeWizard";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
           { path: UIRoutes.HOME, element: <Home /> },
           { path: UIRoutes.ABOUT, element: <About /> },
           { path: UIRoutes.PROFILE, element: <Profile /> },
+          { path: UIRoutes.TASK_INTAKE_WIZARD, element: <TaskIntakeWizard /> },
           { path: UIRoutes.ROOT, element: <Navigate to={UIRoutes.HOME} replace /> },
         ],
       },
