@@ -8,6 +8,7 @@ import NotFound from "../components/ui/NotFound";
 import PrivateLayout from "../components/layout/PrivateLayout";
 import Profile from "../components/domain/Profile";
 import TaskIntakeWizard from "../components/domain/TaskIntakeWizard";
+import SkillModuleCreator from "@/components/domain/AddSkillModuleForm";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
           { path: UIRoutes.ABOUT, element: <About /> },
           { path: UIRoutes.PROFILE, element: <Profile /> },
           { path: UIRoutes.TASK_INTAKE_WIZARD, element: <TaskIntakeWizard /> },
+          { path: UIRoutes.ADD_SKILL, element: <SkillModuleCreator /> },
           { path: UIRoutes.ROOT, element: <Navigate to={UIRoutes.HOME} replace /> },
         ],
       },

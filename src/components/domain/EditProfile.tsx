@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { apiService } from "../../services/api.service";
-import { BackendRoutes, StaticImageUrls } from "../../constants";
+import { BackendRoutes, FILE_UPLOAD_TYPES, StaticImageUrls } from "../../constants";
 import {
   dismissLoading,
   presentToast,
@@ -110,16 +110,10 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
     try {
       dispatch(showLoading());
 
-      const getImageInfo = async (imageFile: File | null) => {
-        const formData = new FormData();
-        if (imageFile) formData.append("file", imageFile);
-        if (user.public_id) formData.append("old_public_id", user.public_id);
-
-        return apiService.post(BackendRoutes.REPLACE_FILE, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
+      const getImageInfo = (selectedImage: File | null) =>
+        apiService.uploadFile(selectedImage, FILE_UPLOAD_TYPES.REPLACE, {
+          public_id: user.public_id,
         });
-      };
 
       const imageInfo =
         selectedImage || isImageChanged ? (await getImageInfo(selectedImage)).data.data : {};

@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from "axios";
-import { BackendRoutes, LocalStorageKeys } from "../constants";
+import { BackendRoutes, FILE_UPLOAD_TYPES, LocalStorageKeys } from "../constants";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 class ApiService {
@@ -59,6 +59,25 @@ class ApiService {
 
   public post<T>(path: string, payload?: T, options?: AxiosRequestConfig) {
     return this.axiosInstance.post(`/${path}`, payload, options);
+  }
+
+  public uploadFile(
+    file: File | null,
+    fileUploadType: FILE_UPLOAD_TYPES,
+    options?: {
+      public_id?: string;
+    }
+  ) {
+    const formData = new FormData();
+    if (file) formData.append("file", file);
+    if (fileUploadType === FILE_UPLOAD_TYPES.REPLACE) {
+      if (options?.public_id) formData.append("old_public_id", options.public_id);
+    }
+
+    return apiService.post(BackendRoutes.REPLACE_FILE, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
   }
 
   public getErrorMessage(error: Error) {

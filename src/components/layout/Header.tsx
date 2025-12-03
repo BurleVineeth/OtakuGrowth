@@ -83,8 +83,11 @@ export default function Header() {
               >
                 Task Intake Wizard
               </button>
-              <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
-                Library
+              <button
+                onClick={() => navigate(`/${UIRoutes.ADD_SKILL}`)}
+                className="hover:text-[var(--text-secondary)] transition cursor-pointer"
+              >
+                Add Skill
               </button>
               <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
                 Work
@@ -113,7 +116,7 @@ export default function Header() {
                 <button
                   key={t.id}
                   onClick={() => setTheme(t.id)}
-                  className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--bg-secondary)] transition"
+                  className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer"
                 >
                   {t.label}
                 </button>
@@ -131,19 +134,19 @@ export default function Header() {
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => navigate(`/${UIRoutes.PROFILE}`)}
-                className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--bg-secondary)] transition"
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer"
               >
                 <FiUser className="text-lg" />
                 Profile
               </button>
 
-              <button className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--bg-secondary)] transition">
+              <button className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer">
                 <FiSettings className="text-lg" />
                 Settings
               </button>
 
               <button
-                className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition"
+                className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition cursor-pointer"
                 onClick={logout}
               >
                 <FiLogOut className="text-lg" />

@@ -8,4 +8,5 @@ export const BackendRoutes = {
   UPLOAD: "upload",
   DELETE_FILE: "deleteFile",
   REPLACE_FILE: "replaceFile",
+  ADD_SKILL: "addSkill",
 };

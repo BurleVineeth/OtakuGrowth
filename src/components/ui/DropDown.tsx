@@ -40,7 +40,7 @@ export default function Dropdown({
       </div>
 
       {open && (
-        <div className="absolute right-0 mt-2 p-2 bg-white dark:bg-gray-900 shadow-xl rounded-xl w-48 z-50">
+        <div className="absolute right-0 mt-2 p-2 bg-[var(--bg-secondary)] dark:bg-gray-900 shadow-xl rounded-xl w-48 z-50 border border-[var(--border)]">
           {React.Children.map(children, enhanceChild)}
         </div>
       )}
