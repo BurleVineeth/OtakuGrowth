@@ -14,8 +14,7 @@ const Home = () => {
   const skills = useSelector(({ skills }: AppState) => skills.skills);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -92,6 +91,7 @@ const Home = () => {
           : skills.map((skill, index) => (
               <div
                 key={skill._id}
+                onClick={() => navigate(`/${UIRoutes.SKILL}/${skill._id}`)}
                 className="
                   group rounded-xl border border-[var(--border)] 
                   bg-[var(--card-bg)] overflow-hidden shadow-lg 

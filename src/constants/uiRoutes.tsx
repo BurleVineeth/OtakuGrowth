@@ -8,4 +8,5 @@ export const UIRoutes = {
   TASK_INTAKE_WIZARD: "task-intake-wizard",
   ADD_SKILL: "add-skill",
   SKILL: "skill",
+  SKILL_DETAIL: "skill/:skillId",
 };

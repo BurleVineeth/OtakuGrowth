@@ -69,4 +69,7 @@
   --summary-bg: rgba(255, 255, 255, 0.05);
 
   --shadow: 0 0 15px rgba(168, 85, 247, 0.28);
+
+  --card: #111111;
+  --chipBg: #1a1a1a;
 }

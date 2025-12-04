@@ -37,3 +37,18 @@ export const ModuleSchema = z.object({
 });
 
 export type ModuleType = z.infer<typeof ModuleSchema>;
+
+export enum TaskType {
+  ONE_TIME = "oneTime",
+  DAILY = "daily",
+  WEEKLY = "weekly",
+}
+
+export interface Task {
+  _id: string;
+  title: string;
+  description?: string;
+  type: TaskType;
+  duration?: string;
+  createdAt: string;
+}

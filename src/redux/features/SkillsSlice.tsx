@@ -8,6 +8,9 @@ export interface Skill {
   category: string;
   difficulty: SkillDifficulty;
   url: string;
+  createdAt?: string;
+  fileType?: string;
+  public_id?: string;
 }
 
 export interface SkillsInitialState {

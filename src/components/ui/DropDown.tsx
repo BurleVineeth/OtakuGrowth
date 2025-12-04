@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 export default function Dropdown({
   trigger,
   children,
+  animateAction,
 }: {
   trigger: React.ReactNode;
   children: React.ReactNode;
+  animateAction?: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -33,9 +35,16 @@ export default function Dropdown({
     return () => document.removeEventListener("click", close);
   }, []);
 
+  const triggerClick = () => {
+    setOpen(!open);
+    if (animateAction) {
+      animateAction();
+    }
+  };
+
   return (
     <div className="relative" ref={ref}>
-      <div onClick={() => setOpen(!open)} className="cursor-pointer">
+      <div onClick={triggerClick} className="cursor-pointer">
         {trigger}
       </div>
 

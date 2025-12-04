@@ -10,4 +10,6 @@ export const BackendRoutes = {
   REPLACE_FILE: "replaceFile",
   ADD_SKILL: "addSkill",
   GET_SKILLS: "getSkills",
+  SKILL: "skill",
+  ADD_TASK: "addTask",
 };
