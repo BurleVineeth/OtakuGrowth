@@ -46,9 +46,18 @@ export enum TaskType {
 
 export interface Task {
   _id: string;
-  title: string;
+  name: string;
   description?: string;
   type: TaskType;
-  duration?: string;
+  duration?: number;
   createdAt: string;
+  skill: string;
+  user: string;
+}
+
+export interface TaskFormValues {
+  name: string;
+  type: TaskType;
+  duration?: number;
+  description?: string;
 }

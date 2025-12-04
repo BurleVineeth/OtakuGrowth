@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { apiService } from "@/services/api.service";
 import { FiSettings } from "react-icons/fi";
@@ -10,21 +10,19 @@ import {
   TOAST_TYPES,
   type Skill,
 } from "@/redux/features";
-import { BackendRoutes } from "@/constants";
+import { BackendRoutes, UIRoutes } from "@/constants";
 import type { AppState } from "@/redux/store";
-import TaskForm, { type TaskFormValues } from "./TaskForm";
-import type { Task } from "./types";
-import type { UseFormReset } from "react-hook-form";
+import { type Task } from "./types";
 import Dropdown from "@/components/ui/DropDown";
 
 const SkillDetail = () => {
   const { skillId } = useParams();
+  const navigate = useNavigate();
   const user = useSelector(({ user }: AppState) => user);
   const dispatch = useDispatch();
 
   const [skill, setSkill] = useState<Skill>();
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [showTaskForm, setShowTaskForm] = useState(false);
+  const [scheduledTasks, setScheduledTasks] = useState<Task[]>([]);
   const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
@@ -33,9 +31,13 @@ const SkillDetail = () => {
     const fetchSkill = async () => {
       try {
         dispatch(showLoading());
-        const { data } = await apiService.get(`${BackendRoutes.SKILL}/${skillId}`);
+        const { data } = await apiService.get(`${BackendRoutes.SKILL}/${skillId}`, {
+          params: { userId: user._id },
+        });
+
+        const allTasks: Task[] = data.data.tasks || [];
+        setScheduledTasks(allTasks);
         setSkill(data.data.skill);
-        setTasks(data.data.tasks || []);
       } catch (error) {
         dispatch(
           presentToast({
@@ -51,39 +53,6 @@ const SkillDetail = () => {
     fetchSkill();
   }, [user, skillId, dispatch]);
 
-  const handleSaveTask = async (task: TaskFormValues, reset: UseFormReset<TaskFormValues>) => {
-    try {
-      dispatch(showLoading());
-      const taskPayload = {
-        ...task,
-        skill: skillId,
-        user: user?._id,
-      };
-
-      const { data: taskData } = await apiService.post(BackendRoutes.ADD_TASK, taskPayload);
-
-      reset();
-      setShowTaskForm(false);
-      setTasks((prev) => [taskData.data.task, ...prev]);
-
-      dispatch(
-        presentToast({
-          message: "Task added successfully!",
-          type: TOAST_TYPES.SUCCESS,
-        })
-      );
-    } catch (error) {
-      dispatch(
-        presentToast({
-          message: apiService.getErrorMessage(error as Error),
-          type: TOAST_TYPES.ERROR,
-        })
-      );
-    } finally {
-      dispatch(dismissLoading());
-    }
-  };
-
   if (!skill)
     return <div className="p-6 pt-20 text-[var(--text)] text-center">Skill not found.</div>;
 
@@ -92,16 +61,25 @@ const SkillDetail = () => {
       {/* HERO */}
       <div className="relative w-full h-[78vh] overflow-hidden">
         {/* SETTINGS BUTTON */}
-        <div className={`absolute cursor-pointer top-6 right-6 z-20 p-2`}>
+        <div className="absolute cursor-pointer top-6 right-6 z-20">
           <Dropdown
             trigger={
               <FiSettings
-                className={`text-2xl cursor-pointer hover:brightness-90 transition-transform duration-300 ${showSettings ? "rotate-45" : "rotate-0"}`}
+                className={`text-2xl cursor-pointer hover:brightness-90 transition-transform duration-300 ${
+                  showSettings ? "rotate-45" : "rotate-0"
+                }`}
               />
             }
-            animateAction={() => setShowSettings((prev) => !prev)}
+            animateAction={(value) => setShowSettings(value)}
           >
             <div className="flex flex-col gap-2">
+              <button
+                onClick={() => navigate(`/${UIRoutes.SKILL}/${skill._id}/${UIRoutes.TASKS}`)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer"
+              >
+                Manage Tasks
+              </button>
+
               <button className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition cursor-pointer">
                 Delete Skill
               </button>
@@ -145,45 +123,29 @@ const SkillDetail = () => {
             <p className="text-[1.1rem] opacity-80 leading-relaxed">{skill.description}</p>
           </section>
 
-          {/* TASK SECTION */}
+          {/* ONLY SCHEDULED TASKS */}
           <section className="space-y-4">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-3xl font-semibold">Tasks</h2>
-              <button
-                className="px-4 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary-dark)] transition cursor-pointer"
-                onClick={() => setShowTaskForm(true)}
-              >
-                Add Task
-              </button>
-            </div>
+            <h2 className="text-3xl font-semibold">Scheduled Tasks</h2>
 
-            {showTaskForm && (
-              <TaskForm onSave={handleSaveTask} onCancel={() => setShowTaskForm(false)} />
-            )}
-
-            {/* FIXED HEIGHT TASK LIST (DOESN’T AFFECT OVERVIEW) */}
             <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 custom-scroll">
-              {tasks.length === 0 ? (
+              {scheduledTasks.length === 0 ? (
                 <p className="opacity-70 text-center py-6 text-[var(--text-secondary)]">
-                  No tasks added yet.
+                  No scheduled tasks.
                 </p>
               ) : (
-                tasks.map((task) => (
+                scheduledTasks.map((task) => (
                   <div
                     key={task._id}
                     className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm hover:shadow-md transition-shadow duration-300 hover:border-[var(--primary)] group cursor-pointer"
                   >
-                    {/* Title */}
-                    <h3 className="font-semibold text-lg text-[var(--text)] group-hover:text-[var(--primary)] transition-colors capitalize">
-                      {task.title}
+                    <h3 className="font-semibold text-lg group-hover:text-[var(--primary)] transition-colors capitalize">
+                      {task.name}
                     </h3>
 
-                    {/* Description */}
                     <p className="text-sm mt-1 text-[var(--text-secondary)] leading-relaxed capitalize">
                       {task.description || "No description"}
                     </p>
 
-                    {/* Footer row */}
                     <div className="mt-4 pt-3 border-t border-[var(--border)] flex justify-between items-center text-xs text-[var(--text-secondary)]">
                       <span className="capitalize">
                         {task.type} • {task.duration || "—"} mins
@@ -200,7 +162,7 @@ const SkillDetail = () => {
           </section>
         </div>
 
-        {/* OVERVIEW PANEL (FIXED, DOES NOT GROW) */}
+        {/* OVERVIEW */}
         <aside className="bg-[var(--card)] border border-[var(--border)]/60 rounded-2xl shadow-lg p-6 w-full max-w-sm h-fit sticky top-24">
           <div className="mb-6">
             <h3 className="text-xl font-semibold">Overview</h3>
@@ -220,19 +182,17 @@ const SkillDetail = () => {
                 {skill.difficulty}
               </span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm opacity-60">Modules</span>
-              <span className="text-sm font-medium opacity-70">Coming soon</span>
-            </div>
+
             <div className="flex items-center justify-between">
               <span className="text-sm opacity-60">Added On</span>
               <span className="text-sm font-medium opacity-70">
                 {skill.createdAt ? new Date(skill.createdAt).toLocaleDateString() : "—"}
               </span>
             </div>
+
             <div className="flex items-center justify-between">
-              <span className="text-sm opacity-60">Duration</span>
-              <span className="text-sm font-medium opacity-60">—</span>
+              <span className="text-sm opacity-60">Scheduled Tasks</span>
+              <span className="text-sm font-medium opacity-70">{scheduledTasks.length}</span>
             </div>
           </div>
         </aside>

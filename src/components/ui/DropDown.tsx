@@ -7,7 +7,7 @@ export default function Dropdown({
 }: {
   trigger: React.ReactNode;
   children: React.ReactNode;
-  animateAction?: () => void;
+  animateAction?: (value: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -21,6 +21,9 @@ export default function Dropdown({
       onClick: (e: React.MouseEvent) => {
         el.props.onClick?.(e);
         setOpen(false);
+        if (animateAction) {
+          animateAction(false);
+        }
       },
     });
   };
@@ -29,6 +32,9 @@ export default function Dropdown({
     const close = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
+        if (animateAction) {
+          animateAction(false);
+        }
       }
     };
     document.addEventListener("click", close);
@@ -38,7 +44,7 @@ export default function Dropdown({
   const triggerClick = () => {
     setOpen(!open);
     if (animateAction) {
-      animateAction();
+      animateAction(!open);
     }
   };
 

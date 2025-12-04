@@ -6,37 +6,45 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { useForm, Controller, type UseFormReset } from "react-hook-form";
-import { TaskType } from "./types";
-
-export interface TaskFormValues {
-  name: string;
-  type: TaskType;
-  duration?: number;
-  description?: string;
-}
+import { TaskType, type Task, type TaskFormValues } from "./types";
+import { useDispatch } from "react-redux";
+import { presentToast, TOAST_TYPES } from "@/redux/features";
 
 interface TaskFormProps {
   onSave: (data: TaskFormValues, reset: UseFormReset<TaskFormValues>) => void;
   onCancel: () => void;
+  task?: Task | null;
 }
 
-const TaskForm = ({ onSave, onCancel }: TaskFormProps) => {
+const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<TaskFormValues>({
     defaultValues: {
-      name: "",
-      type: TaskType.DAILY,
-      duration: undefined,
-      description: "",
+      name: task?.name || "",
+      type: task?.type || TaskType.DAILY,
+      duration: task?.duration || undefined,
+      description: task?.description || "",
     },
   });
 
   const onSubmit = (data: TaskFormValues) => {
+    if (!isDirty) {
+      dispatch(
+        presentToast({
+          message: "No changes made to save.",
+          type: TOAST_TYPES.DEFAULT,
+        })
+      );
+
+      return;
+    }
     onSave(data, reset);
   };
 

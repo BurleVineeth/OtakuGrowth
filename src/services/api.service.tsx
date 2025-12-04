@@ -61,6 +61,14 @@ class ApiService {
     return this.axiosInstance.post(`/${path}`, payload, options);
   }
 
+  public put<T>(path: string, payload?: T, options?: AxiosRequestConfig) {
+    return this.axiosInstance.put(`/${path}`, payload, options);
+  }
+
+  public delete(path: string, options?: AxiosRequestConfig) {
+    return this.axiosInstance.delete(`/${path}`, options);
+  }
+
   public uploadFile(
     file: File | null,
     fileUploadType: FILE_UPLOAD_TYPES,

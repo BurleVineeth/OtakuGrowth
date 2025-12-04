@@ -10,6 +10,7 @@ import Profile from "../components/domain/Profile";
 import TaskIntakeWizard from "../components/domain/TaskIntakeWizard";
 import SkillModuleCreator from "@/components/domain/AddSkillModuleForm";
 import SkillDetail from "@/components/domain/AddSkillModuleForm/SkillDetail";
+import SkillTasks from "@/components/domain/AddSkillModuleForm/SkillTasks";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
           { path: UIRoutes.TASK_INTAKE_WIZARD, element: <TaskIntakeWizard /> },
           { path: UIRoutes.ADD_SKILL, element: <SkillModuleCreator /> },
           { path: UIRoutes.SKILL_DETAIL, element: <SkillDetail /> },
+          { path: UIRoutes.SKILL_TASKS, element: <SkillTasks /> },
           { path: UIRoutes.ROOT, element: <Navigate to={UIRoutes.HOME} replace /> },
         ],
       },

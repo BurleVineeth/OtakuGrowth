@@ -9,4 +9,6 @@ export const UIRoutes = {
   ADD_SKILL: "add-skill",
   SKILL: "skill",
   SKILL_DETAIL: "skill/:skillId",
+  SKILL_TASKS: "skill/:skillId/tasks",
+  TASKS: "tasks",
 };
