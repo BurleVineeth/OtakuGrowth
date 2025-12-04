@@ -149,13 +149,13 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
   const errorClasses = "text-xs text-red-400 ml-2 p2";
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="fixed p-4 inset-0 flex items-center justify-center bg-black/50 z-50">
       <div
         className="
           w-full max-w-md p-6 rounded-xl 
           bg-[var(--bg-secondary)] shadow-primary
           border border-[var(--primary)]/30
-          animate-[fadeIn_0.2s_ease,scaleIn_0.2s_ease]
+          animate-[fadeIn_0.2s_ease,scaleIn_0.2s_ease] max-h-full overflow-scroll
         "
       >
         {/* Header */}

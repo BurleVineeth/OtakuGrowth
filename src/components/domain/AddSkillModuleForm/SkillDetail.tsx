@@ -56,6 +56,30 @@ const SkillDetail = () => {
   if (!skill)
     return <div className="p-6 pt-20 text-[var(--text)] text-center">Skill not found.</div>;
 
+  const deleteSkill = async () => {
+    try {
+      dispatch(showLoading());
+      await apiService.delete(`${BackendRoutes.DELETE_SKILL}/${skillId}`);
+      navigate(`/${UIRoutes.HOME}`);
+
+      dispatch(
+        presentToast({
+          message: "Skill deleted",
+          type: TOAST_TYPES.SUCCESS,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        presentToast({
+          message: apiService.getErrorMessage(error as Error),
+          type: TOAST_TYPES.ERROR,
+        })
+      );
+    } finally {
+      dispatch(dismissLoading());
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* HERO */}
@@ -80,7 +104,10 @@ const SkillDetail = () => {
                 Manage Tasks
               </button>
 
-              <button className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition cursor-pointer">
+              <button
+                onClick={deleteSkill}
+                className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition cursor-pointer"
+              >
                 Delete Skill
               </button>
             </div>

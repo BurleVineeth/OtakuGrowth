@@ -49,9 +49,9 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-[var(--card)] p-6 rounded-xl w-full max-w-md border border-[var(--border)] shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-[var(--primary)]">Add New Task</h3>
+    <div className="fixed inset-0 p-4 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-[var(--card)] p-6 rounded-xl w-full max-h-full overflow-scroll max-w-md border border-[var(--border)] shadow-lg">
+        <h3 className="text-xl font-semibold mb-4 text-[var(--primary)]">{`${task ? "Edit" : "Add New"} Task`}</h3>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Task Name */}
