@@ -1,19 +1,27 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ModuleSchema, SkillDifficulty, type ModuleType } from "./types";
-import { useState } from "react";
+import { ModuleSchema, SkillDifficulty, type CreateModuleType, type EditModuleType } from "./types";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppState } from "@/redux/store";
 import { apiService } from "@/services/api.service";
 import { BackendRoutes, FILE_UPLOAD_TYPES, UIRoutes } from "@/constants";
-import { dismissLoading, presentToast, showLoading, TOAST_TYPES } from "@/redux/features";
-import { useNavigate } from "react-router-dom";
+import {
+  dismissLoading,
+  presentToast,
+  showLoading,
+  type Skill,
+  TOAST_TYPES,
+} from "@/redux/features";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddSkillModuleForm() {
   const [preview, setPreview] = useState<string | null>(null);
   const user = useSelector(({ user }: AppState) => user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { skillId } = useParams();
+  const [selectedSkill, setSelectedSkill] = useState<Skill>();
 
   const {
     register,
@@ -21,42 +29,84 @@ export default function AddSkillModuleForm() {
     formState: { errors },
     watch,
     setValue,
-  } = useForm<ModuleType>({
-    resolver: zodResolver(ModuleSchema),
+    reset,
+  } = useForm<CreateModuleType | EditModuleType>({
+    resolver: zodResolver(ModuleSchema(!!skillId)),
     defaultValues: {
       name: "",
       description: "",
       difficulty: SkillDifficulty.BEGINNER,
       category: "",
-      coverPhoto: "",
+      coverPhoto: undefined,
     },
   });
 
+  useEffect(() => {
+    if (!skillId || !user) {
+      return;
+    }
+
+    const getSkill = async () => {
+      const { data: skillData } = await apiService.get(`${BackendRoutes.SINGLE_SKILL}/${skillId}`, {
+        params: { userId: user._id },
+      });
+
+      const skill = skillData.data.skill;
+      setSelectedSkill(skill);
+      reset({
+        name: skill?.name ?? "",
+        description: skill?.description ?? "",
+        difficulty: skill?.difficulty ?? SkillDifficulty.BEGINNER,
+        category: skill?.category ?? "",
+        coverPhoto: undefined,
+      });
+
+      setPreview(skill.url ?? null);
+    };
+
+    getSkill();
+
+    return () => {
+      setSelectedSkill(undefined);
+      setPreview(null);
+    };
+  }, [reset, skillId, user]);
+
   const currentLevel = watch("difficulty");
 
-  const submitModule = async (moduleData: ModuleType) => {
+  const submitModule = async (moduleData: CreateModuleType | EditModuleType) => {
     try {
       dispatch(showLoading());
 
       const { coverPhoto, ...skillData } = moduleData;
 
-      const { data: coverPhotoInfo } = await apiService.uploadFile(
-        coverPhoto,
-        FILE_UPLOAD_TYPES.UPLOAD
-      );
+      const { data: coverPhotoInfo } =
+        coverPhoto && coverPhoto.length === undefined
+          ? await apiService.uploadFile(
+              coverPhoto,
+              selectedSkill?.public_id ? FILE_UPLOAD_TYPES.REPLACE : FILE_UPLOAD_TYPES.UPLOAD,
+              {
+                public_id: selectedSkill?.public_id,
+              }
+            )
+          : { data: { data: {} } };
+
       const skillModulePayload = {
         ...skillData,
         ...coverPhotoInfo.data,
         user: user?._id,
       };
 
-      const { data: res } = await apiService.post(BackendRoutes.ADD_SKILL, skillModulePayload);
-      const skillId = res.data.skill._id;
-      navigate(`/${UIRoutes.SKILL}/${skillId}`);
+      const { data: res } = await (skillId
+        ? apiService.put(`${BackendRoutes.UPDATE_SKILL}/${skillId}`, skillModulePayload)
+        : apiService.post(BackendRoutes.ADD_SKILL, skillModulePayload));
+
+      const id = res.data.skill._id;
+      navigate(`/${UIRoutes.SKILL}/${id}`);
 
       dispatch(
         presentToast({
-          message: "Skill module added successfully!",
+          message: "Skill added successfully!",
           type: TOAST_TYPES.SUCCESS,
         })
       );

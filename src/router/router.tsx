@@ -40,6 +40,7 @@ const router = createBrowserRouter([
           { path: UIRoutes.ADD_SKILL, element: <SkillModuleCreator /> },
           { path: UIRoutes.SKILL_DETAIL, element: <SkillDetail /> },
           { path: UIRoutes.SKILL_TASKS, element: <SkillTasks /> },
+          { path: UIRoutes.MODIFY_SKILL_ID, element: <SkillModuleCreator /> },
           { path: UIRoutes.ROOT, element: <Navigate to={UIRoutes.HOME} replace /> },
         ],
       },

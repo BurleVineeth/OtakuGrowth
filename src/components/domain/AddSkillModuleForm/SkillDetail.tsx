@@ -105,6 +105,13 @@ const SkillDetail = () => {
               </button>
 
               <button
+                onClick={() => navigate(`/${UIRoutes.MODIFY_SKILL}/${skill._id}`)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer"
+              >
+                Modify Skill
+              </button>
+
+              <button
                 onClick={deleteSkill}
                 className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition cursor-pointer"
               >
