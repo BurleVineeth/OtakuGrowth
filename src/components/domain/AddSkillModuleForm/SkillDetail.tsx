@@ -59,7 +59,9 @@ const SkillDetail = () => {
   const deleteSkill = async () => {
     try {
       dispatch(showLoading());
-      await apiService.delete(`${BackendRoutes.DELETE_SKILL}/${skillId}`);
+      await apiService.delete(`${BackendRoutes.DELETE_SKILL}/${skillId}`, {
+        params: { public_id: skill.public_id },
+      });
       navigate(`/${UIRoutes.HOME}`);
 
       dispatch(

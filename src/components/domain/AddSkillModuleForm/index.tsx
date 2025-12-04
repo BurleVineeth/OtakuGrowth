@@ -139,7 +139,7 @@ export default function AddSkillModuleForm() {
       >
         {/* Title */}
         <h1 className="text-3xl font-bold tracking-wide text-center text-[var(--primary)] drop-shadow-[0_0_12px_var(--shadow-strong)] mb-2">
-          Add a New Skill to Your Arsenal
+          {skillId ? "Modify the Skill Details" : "Add a New Skill to Your Arsenal"}
         </h1>
         <p className="text-center text-[var(--text-secondary)] text-sm -mt-2">
           Strengthen your skill set by forging a new technique.
