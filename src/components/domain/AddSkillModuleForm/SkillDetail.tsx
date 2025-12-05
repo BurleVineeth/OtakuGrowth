@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { apiService } from "@/services/api.service";
@@ -12,8 +12,9 @@ import {
 } from "@/redux/features";
 import { BackendRoutes, UIRoutes } from "@/constants";
 import type { AppState } from "@/redux/store";
-import { type Task } from "./types";
+import { type ScheduledTasks } from "./types";
 import Dropdown from "@/components/ui/DropDown";
+import DescriptionText from "@/components/ui/DescriptionText";
 
 const SkillDetail = () => {
   const { skillId } = useParams();
@@ -22,7 +23,7 @@ const SkillDetail = () => {
   const dispatch = useDispatch();
 
   const [skill, setSkill] = useState<Skill>();
-  const [scheduledTasks, setScheduledTasks] = useState<Task[]>([]);
+  const [scheduledTasks, setScheduledTasks] = useState<ScheduledTasks[]>([]);
   const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const SkillDetail = () => {
           params: { userId: user._id },
         });
 
-        const allTasks: Task[] = data.data.tasks || [];
+        const allTasks: ScheduledTasks[] = data.data.tasks || [];
         setScheduledTasks(allTasks);
         setSkill(data.data.skill);
       } catch (error) {
@@ -52,6 +53,22 @@ const SkillDetail = () => {
 
     fetchSkill();
   }, [user, skillId, dispatch]);
+
+  const { completedTasks, pendingTasks, completedCount, pendingCount, completionPercentage } =
+    useMemo(() => {
+      const completed = scheduledTasks.filter((t) => t.completed);
+      const pending = scheduledTasks.filter((t) => !t.completed);
+
+      const total = scheduledTasks.length || 1; // avoid divide by zero
+
+      return {
+        completedTasks: completed,
+        pendingTasks: pending,
+        completedCount: completed.length,
+        pendingCount: pending.length,
+        completionPercentage: Math.round((completed.length / total) * 100),
+      };
+    }, [scheduledTasks]);
 
   if (!skill)
     return <div className="p-6 pt-20 text-[var(--text)] text-center">Skill not found.</div>;
@@ -82,6 +99,39 @@ const SkillDetail = () => {
     }
   };
 
+  const completeTask = async (task: ScheduledTasks) => {
+    try {
+      dispatch(showLoading());
+
+      await apiService.post(BackendRoutes.COMPLETE_TASK, {
+        skill: task.skill,
+        user: task.user,
+        task: task._id,
+        type: task.type,
+      });
+
+      setScheduledTasks((prev) =>
+        prev.map((t) => (t._id === task._id ? { ...t, completed: true } : t))
+      );
+
+      dispatch(
+        presentToast({
+          message: "Task completed!",
+          type: TOAST_TYPES.SUCCESS,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        presentToast({
+          message: apiService.getErrorMessage(error as Error),
+          type: TOAST_TYPES.ERROR,
+        })
+      );
+    } finally {
+      dispatch(dismissLoading());
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text)]">
       {/* HERO */}
@@ -91,7 +141,7 @@ const SkillDetail = () => {
           <Dropdown
             trigger={
               <FiSettings
-                className={`text-2xl cursor-pointer hover:brightness-90 transition-transform duration-300 ${
+                className={`text-2xl cursor-pointer hover:brightness-90 transition-transform duration-300 hover:text-[var(--primary)] ${
                   showSettings ? "rotate-45" : "rotate-0"
                 }`}
               />
@@ -133,17 +183,17 @@ const SkillDetail = () => {
           <h1 className="text-5xl font-extrabold mb-4">{skill.name}</h1>
 
           <div className="flex flex-wrap gap-3 text-sm">
-            <div className="px-4 py-2 bg-[var(--card)] rounded-lg border border-[var(--border)]/50">
+            <div className="px-4 py-2 rounded-lg">
               Category: <strong>{skill.category}</strong>
             </div>
 
-            <div className="px-4 py-2 bg-[var(--card)] rounded-lg border border-[var(--border)]/50 capitalize">
+            <div className="px-4 py-2 rounded-lg capitalize">
               Difficulty: <strong>{skill.difficulty}</strong>
             </div>
 
             {skill.createdAt && (
-              <div className="px-4 py-2 bg-[var(--card)] rounded-lg border border-[var(--border)]/50 opacity-70">
-                Added On: {new Date(skill.createdAt).toLocaleDateString()}
+              <div className="px-4 py-2 rounded-lg opacity-70">
+                Added On: {new Date(skill.createdAt).toDateString()}
               </div>
             )}
           </div>
@@ -156,44 +206,93 @@ const SkillDetail = () => {
         <div className="lg:col-span-2 space-y-14">
           <section>
             <h2 className="text-3xl font-semibold mb-4">About</h2>
-            <p className="text-[1.1rem] opacity-80 leading-relaxed">{skill.description}</p>
+            <DescriptionText text={skill.description} />
           </section>
 
           {/* ONLY SCHEDULED TASKS */}
-          <section className="space-y-4">
-            <h2 className="text-3xl font-semibold">Scheduled Tasks</h2>
+          <section className="space-y-10">
+            {/* Pending Tasks */}
+            <div>
+              <h2 className="text-3xl font-semibold text-[var(--warning)]">Pending Tasks</h2>
+              <div className="max-h-[500px] overflow-y-auto mt-4 pr-2 space-y-4 custom-scroll">
+                {pendingTasks.length === 0 ? (
+                  <p className="opacity-70 text-center py-6 text-[var(--text-secondary)]">
+                    No pending tasks.
+                  </p>
+                ) : (
+                  pendingTasks.map((task) => (
+                    <div
+                      key={task._id}
+                      className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm hover:shadow-md transition-shadow duration-300 group"
+                    >
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-semibold text-lg group-hover:text-[var(--primary)] transition-colors capitalize">
+                          {task.name}
+                        </h3>
 
-            <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 custom-scroll">
-              {scheduledTasks.length === 0 ? (
-                <p className="opacity-70 text-center py-6 text-[var(--text-secondary)]">
-                  No scheduled tasks.
-                </p>
-              ) : (
-                scheduledTasks.map((task) => (
-                  <div
-                    key={task._id}
-                    className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm hover:shadow-md transition-shadow duration-300 hover:border-[var(--primary)] group cursor-pointer"
-                  >
-                    <h3 className="font-semibold text-lg group-hover:text-[var(--primary)] transition-colors capitalize">
-                      {task.name}
-                    </h3>
+                        {/* COMPLETE BUTTON */}
+                        <button
+                          onClick={() => completeTask(task)}
+                          className="text-xs px-3 py-1 rounded bg-[var(--primary)]/20 text-[var(--primary)] hover:bg-[var(--success)] hover:text-white transition font-medium cursor-pointer"
+                        >
+                          Mark Complete
+                        </button>
+                      </div>
 
-                    <p className="text-sm mt-1 text-[var(--text-secondary)] leading-relaxed capitalize">
-                      {task.description || "No description"}
-                    </p>
+                      <p className="text-sm mt-1 text-[var(--text-secondary)] leading-relaxed capitalize">
+                        {task.description || "No description"}
+                      </p>
 
-                    <div className="mt-4 pt-3 border-t border-[var(--border)] flex justify-between items-center text-xs text-[var(--text-secondary)]">
-                      <span className="capitalize">
-                        {task.type} • {task.duration || "—"} mins
-                      </span>
+                      <div className="mt-4 pt-3 border-t border-[var(--border)] flex justify-between items-center text-xs text-[var(--text-secondary)]">
+                        <span className="capitalize">
+                          {task.type} • {task.duration || "—"} mins
+                        </span>
 
-                      <span className="opacity-60">
-                        {new Date(task.createdAt).toLocaleDateString()}
-                      </span>
+                        <span className="opacity-60">
+                          {new Date(task.createdAt).toDateString()}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Completed Tasks */}
+            <div>
+              <h2 className="text-3xl font-semibold text-[var(--success)]">Completed Tasks</h2>
+              <div className="max-h-[500px] overflow-y-auto pr-2 mt-4 space-y-4 custom-scroll">
+                {completedTasks.length === 0 ? (
+                  <p className="opacity-50 text-center py-6 text-[var(--text-secondary)]">
+                    No completed tasks yet.
+                  </p>
+                ) : (
+                  completedTasks.map((task) => (
+                    <div
+                      key={task._id}
+                      className="p-5 rounded-xl border border-[var(--border)] bg-green-500/5 shadow-sm hover:shadow-md transition-shadow duration-300 group"
+                    >
+                      <h3 className="font-semibold text-lg group-hover:text-[var(--success)] transition-colors capitalize">
+                        {task.name}
+                      </h3>
+
+                      <p className="text-sm mt-1 text-[var(--text-secondary)] leading-relaxed capitalize">
+                        {task.description || "No description"}
+                      </p>
+
+                      <div className="mt-4 pt-3 border-t border-[var(--border)] flex justify-between items-center text-xs text-[var(--text-secondary)]">
+                        <span className="capitalize">
+                          {task.type} • {task.duration || "—"} mins
+                        </span>
+
+                        <span className="opacity-60">
+                          {new Date(task.createdAt).toDateString()}
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </section>
         </div>
@@ -206,12 +305,15 @@ const SkillDetail = () => {
           </div>
 
           <div className="space-y-6">
+            {/* CATEGORY */}
             <div className="flex items-center justify-between">
               <span className="text-sm opacity-60">Category</span>
               <span className="text-sm font-medium px-3 py-1 rounded-full bg-[var(--accent)]/10 text-[var(--accent)]">
                 {skill.category}
               </span>
             </div>
+
+            {/* DIFFICULTY */}
             <div className="flex items-center justify-between">
               <span className="text-sm opacity-60">Difficulty</span>
               <span className="text-sm font-medium px-3 py-1 rounded-full bg-[var(--text)]/10 text-[var(--text)] capitalize">
@@ -219,16 +321,41 @@ const SkillDetail = () => {
               </span>
             </div>
 
+            {/* ADDED */}
             <div className="flex items-center justify-between">
               <span className="text-sm opacity-60">Added On</span>
               <span className="text-sm font-medium opacity-70">
-                {skill.createdAt ? new Date(skill.createdAt).toLocaleDateString() : "—"}
+                {skill.createdAt ? new Date(skill.createdAt).toDateString() : "—"}
               </span>
             </div>
 
-            <div className="flex items-center justify-between">
-              <span className="text-sm opacity-60">Scheduled Tasks</span>
-              <span className="text-sm font-medium opacity-70">{scheduledTasks.length}</span>
+            {/* TASK STATS */}
+            <div>
+              <h4 className="text-sm font-semibold mb-3">Task Overview</h4>
+
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div className="rounded-xl p-3 bg-[var(--bg-secondary)] border border-[var(--border)]">
+                  <p className="text-xs opacity-60">Completed</p>
+                  <p className="text-lg font-bold text-[var(--success)]">{completedCount}</p>
+                </div>
+
+                <div className="rounded-xl p-3 bg-[var(--bg-secondary)] border border-[var(--border)]">
+                  <p className="text-xs opacity-60">Pending</p>
+                  <p className="text-lg font-bold text-[var(--warning)]">{pendingCount}</p>
+                </div>
+              </div>
+
+              {/* PROGRESS BAR */}
+              <div className="mt-4">
+                <p className="text-xs mb-2 opacity-70">Overall Progress</p>
+                <div className="w-full h-3 bg-[var(--border)]/40 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[var(--primary)] transition-all duration-500"
+                    style={{ width: `${completionPercentage}%` }}
+                  ></div>
+                </div>
+                <p className="text-xs text-right mt-1 opacity-70">{completionPercentage}% Done</p>
+              </div>
             </div>
           </div>
         </aside>

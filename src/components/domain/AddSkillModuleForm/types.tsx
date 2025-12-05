@@ -74,6 +74,10 @@ export interface Task {
   user: string;
 }
 
+export interface ScheduledTasks extends Task {
+  completed: boolean;
+}
+
 export interface TaskFormValues {
   name: string;
   type: TaskType;

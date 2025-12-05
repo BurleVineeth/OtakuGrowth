@@ -32,7 +32,7 @@ export default function DescriptionText({ text }: { text: string }) {
 
       {!expanded && (
         <div
-          className="text-[var(--primary)] text-sm cursor-pointer mt-1"
+          className="text-[var(--primary)] text-sm cursor-pointer mt-1 w-fit"
           onClick={() => setExpanded(true)}
         >
           Show more
@@ -40,7 +40,10 @@ export default function DescriptionText({ text }: { text: string }) {
       )}
 
       {expanded && (
-        <div className="text-[var(--primary)] text-sm cursor-pointer mt-1" onClick={handleCollapse}>
+        <div
+          className="text-[var(--primary)] text-sm cursor-pointer mt-1 w-fit"
+          onClick={handleCollapse}
+        >
           Show less
         </div>
       )}

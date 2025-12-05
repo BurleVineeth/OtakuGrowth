@@ -1,6 +1,7 @@
 export const BackendRoutes = {
   ADD_SKILL: "addSkill",
   ADD_TASK: "addTask",
+  COMPLETE_TASK: "completeTask",
   DELETE_FILE: "deleteFile",
   DELETE_SKILL: "deleteSkill",
   GET_SKILLS: "getSkills",

@@ -152,7 +152,7 @@ export default function SkillTasks() {
           : durationFilter === "short"
             ? (task.duration ?? 0) <= 30
             : durationFilter === "medium"
-              ? (task.duration ?? 0) <= 180
+              ? (task.duration ?? 0) > 30 && (task.duration ?? 0) <= 180
               : (task.duration ?? 0) > 180
       );
   }, [tasks, search, typeFilter, durationFilter]);

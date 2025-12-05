@@ -72,4 +72,10 @@
 
   --card: #111111;
   --chipBg: #1a1a1a;
+
+  --success: #22c55e;
+  --success-light: #dcfce7;
+
+  --warning: #eab308;
+  --warning-light: #fef9c3;
 }
