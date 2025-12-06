@@ -4,10 +4,12 @@ import type { AppState } from "../../redux/store";
 import { useState } from "react";
 import EditProfileModal from "./EditProfile";
 import { StaticImageUrls } from "../../constants";
+import { useImageViewer } from "@/context/ImageViewerContext";
 
 export default function Profile() {
   const user = useSelector(({ user }: AppState) => user);
   const [isOpen, setIsOpen] = useState(false);
+  const { openImage } = useImageViewer();
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 flex flex-col gap-6 sm:gap-8">
@@ -20,7 +22,8 @@ export default function Profile() {
         <img
           src={user?.url || StaticImageUrls.DEFAULT_PROFILE}
           alt="avatar"
-          className="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary)] shadow-md"
+          className="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary)] shadow-md cursor-pointer"
+          onClick={() => openImage(user?.url || StaticImageUrls.DEFAULT_PROFILE)}
         />
 
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left">

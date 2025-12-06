@@ -3,9 +3,12 @@ import "./index.css";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.tsx";
+import { ImageViewerProvider } from "./context/ImageViewerContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <App />
+    <ImageViewerProvider>
+      <App />
+    </ImageViewerProvider>
   </Provider>
 );
