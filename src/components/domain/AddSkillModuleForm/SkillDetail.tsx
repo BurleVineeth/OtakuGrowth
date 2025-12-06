@@ -15,12 +15,14 @@ import type { AppState } from "@/redux/store";
 import { type ScheduledTasks } from "./types";
 import Dropdown from "@/components/ui/DropDown";
 import DescriptionText from "@/components/ui/DescriptionText";
+import { useAlert } from "@/context/AlertContext";
 
 const SkillDetail = () => {
   const { skillId } = useParams();
   const navigate = useNavigate();
   const user = useSelector(({ user }: AppState) => user);
   const dispatch = useDispatch();
+  const { openAlert } = useAlert();
 
   const [skill, setSkill] = useState<Skill>();
   const [scheduledTasks, setScheduledTasks] = useState<ScheduledTasks[]>([]);
@@ -99,6 +101,16 @@ const SkillDetail = () => {
     }
   };
 
+  const presentDeleteSkillAlert = () => {
+    openAlert({
+      title: "Delete Skill?",
+      message: "Are you sure you want to delete this skill?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      onConfirm: () => deleteSkill(),
+    });
+  };
+
   const completeTask = async (task: ScheduledTasks) => {
     try {
       dispatch(showLoading());
@@ -164,7 +176,7 @@ const SkillDetail = () => {
               </button>
 
               <button
-                onClick={deleteSkill}
+                onClick={presentDeleteSkillAlert}
                 className="flex items-center gap-3 p-2 rounded-md text-red-500 hover:bg-red-500/10 transition cursor-pointer"
               >
                 Delete Skill
