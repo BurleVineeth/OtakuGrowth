@@ -16,6 +16,7 @@ import { type ScheduledTasks } from "./types";
 import Dropdown from "@/components/ui/DropDown";
 import DescriptionText from "@/components/ui/DescriptionText";
 import { useAlert } from "@/context/AlertContext";
+import { AlertVariant } from "@/components/ui/AlertModal";
 
 const SkillDetail = () => {
   const { skillId } = useParams();
@@ -107,6 +108,7 @@ const SkillDetail = () => {
       message: "Are you sure you want to delete this skill?",
       confirmText: "Delete",
       cancelText: "Cancel",
+      variant: AlertVariant.DELETE,
       onConfirm: () => deleteSkill(),
     });
   };
@@ -142,6 +144,17 @@ const SkillDetail = () => {
     } finally {
       dispatch(dismissLoading());
     }
+  };
+
+  const presentCompleteTaskAlert = (task: ScheduledTasks) => {
+    openAlert({
+      title: "Mark as Completed?",
+      message: "Another step conquered on your path. Ready to mark this task as completed?",
+      confirmText: "Complete",
+      cancelText: "Cancel",
+      variant: AlertVariant.COMPLETE,
+      onConfirm: () => completeTask(task),
+    });
   };
 
   return (
@@ -191,7 +204,7 @@ const SkillDetail = () => {
           className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)]/95 via-[var(--bg)]/30 to-transparent" />
-        <div className="absolute bottom-10 left-10 max-w-4xl">
+        <div className="absolute bottom-10 left-4 md:left-10 max-w-4xl">
           <h1 className="text-5xl font-extrabold mb-4">{skill.name}</h1>
 
           <div className="flex flex-wrap gap-3 text-sm">
@@ -244,7 +257,7 @@ const SkillDetail = () => {
 
                         {/* COMPLETE BUTTON */}
                         <button
-                          onClick={() => completeTask(task)}
+                          onClick={() => presentCompleteTaskAlert(task)}
                           className="text-xs px-3 py-1 rounded bg-[var(--primary)]/20 text-[var(--primary)] hover:bg-[var(--success)] hover:text-white transition font-medium cursor-pointer"
                         >
                           Mark Complete

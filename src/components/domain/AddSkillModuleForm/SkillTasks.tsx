@@ -16,6 +16,8 @@ import type { Task, TaskFormValues } from "./types";
 import type { UseFormReset } from "react-hook-form";
 import { BackendRoutes } from "@/constants";
 import DescriptionText from "@/components/ui/DescriptionText";
+import { useAlert } from "@/context/AlertContext";
+import { AlertVariant } from "@/components/ui/AlertModal";
 
 // Icon Button Style
 const iconButton =
@@ -27,6 +29,7 @@ export default function SkillTasks() {
   const { skillId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { openAlert } = useAlert();
 
   const user = useSelector(({ user }: AppState) => user);
 
@@ -156,6 +159,17 @@ export default function SkillTasks() {
               : (task.duration ?? 0) > 180
       );
   }, [tasks, search, typeFilter, durationFilter]);
+
+  const presentDeleteSkillAlert = (taskId: string) => {
+    openAlert({
+      title: "Delete Task?",
+      message: "Are you sure you want to delete this task?",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      variant: AlertVariant.DELETE,
+      onConfirm: () => deleteTask(taskId),
+    });
+  };
 
   return (
     <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text)] pb-20 overflow-x-hidden">
@@ -338,7 +352,10 @@ export default function SkillTasks() {
                     <Wrench size={18} className="relative z-10 group-hover:text-[var(--primary)]" />
                   </button>
 
-                  <button onClick={() => deleteTask(task._id)} className={`${iconButton}`}>
+                  <button
+                    onClick={() => presentDeleteSkillAlert(task._id)}
+                    className={`${iconButton}`}
+                  >
                     <span
                       className="absolute inset-0 rounded-full opacity-0 
                       group-hover:opacity-100 bg-gradient-to-tr 

@@ -1,4 +1,4 @@
-import AlertModal from "@/components/ui/AlertModal";
+import AlertModal, { type AlertVariant } from "@/components/ui/AlertModal";
 import { createContext, useContext, useState } from "react";
 
 interface AlertOptions {
@@ -6,6 +6,7 @@ interface AlertOptions {
   message?: string;
   confirmText?: string;
   cancelText?: string;
+  variant?: AlertVariant;
   onConfirm?: () => void;
 }
 
@@ -41,6 +42,7 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
 
       <AlertModal
         open={!!alertData}
+        variant={alertData?.variant}
         title={alertData?.title}
         message={alertData?.message}
         confirmText={alertData?.confirmText}
