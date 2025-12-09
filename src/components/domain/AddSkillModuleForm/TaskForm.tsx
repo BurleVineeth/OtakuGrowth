@@ -50,24 +50,24 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
 
   return (
     <div className="fixed inset-0 p-4 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-[var(--card)] p-6 rounded-xl w-full max-h-full overflow-scroll max-w-md border border-[var(--border)] shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-[var(--primary)]">{`${task ? "Edit" : "Add New"} Task`}</h3>
+      <div className="bg-card p-6 rounded-xl w-full max-h-full overflow-scroll max-w-md border border-border shadow-lg">
+        <h3 className="text-xl font-semibold mb-4 text-primary">{`${task ? "Edit" : "Add New"} Task`}</h3>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Task Name */}
           <div className="space-y-1">
-            <label className="block font-medium text-[var(--text-secondary)]">Task Name</label>
+            <label className="block font-medium text-(--text-secondary)">Task Name</label>
 
             <input
               {...register("name", {
                 required: "⚔️ A warrior must be known by name! Declare your task, hero!",
                 setValueAs: (v) => v.trim(),
               })}
-              className="w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--input-bg)]
-                       text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              className="w-full p-3 rounded-lg border border-border bg-(--input-bg)
+                       text-(--text) focus:outline-none focus:ring-2 focus:ring-primary"
             />
 
-            {errors.name && <p className="text-[var(--error)] text-sm">{errors.name.message}</p>}
+            {errors.name && <p className="text-(--error) text-sm">{errors.name.message}</p>}
           </div>
 
           {/* Task Type */}
@@ -78,8 +78,8 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
               render={({ field }) => (
                 <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger
-                    className="h-12 select p-3 rounded-lg bg-[var(--input-bg)] border border-[var(--border)]
-                               text-[var(--text)] focus:ring-2 focus:ring-[var(--primary)] focus:outline-none"
+                    className="h-12 select p-3 rounded-lg bg-(--input-bg) border border-border
+                               text-(--text) focus:ring-2 focus:ring-primary focus:outline-none"
                   >
                     <SelectValue placeholder="Task type" />
                   </SelectTrigger>
@@ -96,9 +96,7 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
 
           {/* Duration */}
           <div className="space-y-1">
-            <label className="block font-medium text-[var(--text-secondary)]">
-              Duration (minutes)
-            </label>
+            <label className="block font-medium text-(--text-secondary)">Duration (minutes)</label>
 
             <input
               type="number"
@@ -110,20 +108,16 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
                   message: "🔥 Even the shortest training must last at least 1 minute!",
                 },
               })}
-              className="w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--input-bg)]
-                       text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              className="w-full p-3 rounded-lg border border-border bg-(--input-bg)
+                       text-(--text) focus:outline-none focus:ring-2 focus:ring-primary"
             />
 
-            {errors.duration && (
-              <p className="text-[var(--error)] text-sm">{errors.duration.message}</p>
-            )}
+            {errors.duration && <p className="text-(--error) text-sm">{errors.duration.message}</p>}
           </div>
 
           {/* Description */}
           <div className="space-y-1">
-            <label className="block font-medium text-[var(--text-secondary)]">
-              Description / Notes
-            </label>
+            <label className="block font-medium text-(--text-secondary)">Description / Notes</label>
 
             <textarea
               {...register("description", {
@@ -138,12 +132,12 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
                 },
                 setValueAs: (v) => v.trim(),
               })}
-              className="w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--input-bg)]
-                       text-[var(--text)] min-h-[120px] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+              className="w-full p-3 rounded-lg border border-border bg-(--input-bg)
+                       text-(--text) min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary"
             />
 
             {errors.description && (
-              <p className="text-[var(--error)] text-sm">{errors.description.message}</p>
+              <p className="text-(--error) text-sm">{errors.description.message}</p>
             )}
           </div>
 
@@ -152,16 +146,16 @@ const TaskForm = ({ onSave, onCancel, task }: TaskFormProps) => {
             <button
               type="button"
               onClick={onCancel}
-              className="px-4 py-2 bg-[var(--border)] rounded-md text-[var(--text)]
-                         hover:bg-[var(--border)]/80 cursor-pointer"
+              className="px-4 py-2 bg-border rounded-md text-(--text)
+                         hover:bg-(--border)/80 cursor-pointer"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-4 py-2 bg-[var(--primary)] rounded-md text-white
-                         hover:bg-[var(--primary-dark)] cursor-pointer"
+              className="px-4 py-2 bg-primary rounded-md text-white
+                         hover:bg-(--primary-dark) cursor-pointer"
             >
               Save
             </button>

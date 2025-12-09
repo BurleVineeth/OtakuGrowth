@@ -18,6 +18,7 @@ import { BackendRoutes } from "@/constants";
 import DescriptionText from "@/components/ui/DescriptionText";
 import { useAlert } from "@/context/AlertContext";
 import { AlertVariant } from "@/components/ui/AlertModal";
+import Cheer from "@/components/ui/Cheer";
 
 // Icon Button Style
 const iconButton =
@@ -47,8 +48,10 @@ export default function SkillTasks() {
     try {
       dispatch(showLoading());
 
+      const date = new Date();
+      const dailyKey = date.toISOString().slice(0, 10); // "YYYY-MM-DD"
       const { data } = await apiService.get(`${BackendRoutes.SKILL}/${skillId}`, {
-        params: { userId: user?._id },
+        params: { userId: user?._id, dailyKey },
       });
 
       setTasks(data.data.tasks);
@@ -172,16 +175,18 @@ export default function SkillTasks() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text)] pb-20 overflow-x-hidden">
+    <div className="w-full min-h-screen bg-(--bg) text-(--text) pb-20 overflow-x-hidden">
+      <Cheer />
+
       {/* ------------------------------ HEADER ------------------------------ */}
       {skill && (
         <div className="relative w-full h-56 md:h-72 rounded-b-3xl overflow-hidden shadow-lg">
           <img src={skill.url} alt={skill.name} className="w-full h-full object-cover opacity-80" />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/95 to-black/20" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/95 to-black/20" />
 
           <div className="absolute bottom-5 left-4 right-4">
-            <h1 className="text-2xl md:text-4xl font-bold tracking-tight break-words">
+            <h1 className="text-2xl md:text-4xl font-bold tracking-tight wrap-break-word">
               {skill.name}
             </h1>
             <DescriptionText text={skill.description} />
@@ -205,8 +210,8 @@ export default function SkillTasks() {
           {/* Search */}
           <div
             className="flex-1 w-full md:w-1/3 flex items-center gap-3 px-4 py-3 rounded-xl 
-                    bg-[var(--bg-secondary)] border border-[var(--border)] 
-                    focus-within:border-[var(--primary)]"
+                    bg-(--bg-secondary) border border-border 
+                    focus-within:border-primary"
           >
             <Search size={18} className="opacity-50" />
             <input
@@ -224,8 +229,8 @@ export default function SkillTasks() {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-4 py-2 min-w-[120px] max-w-[200px] bg-[var(--bg-secondary)] border border-[var(--border)]
-               rounded-xl text-sm focus:border-[var(--primary)] focus:outline-none truncate
+                className="px-4 py-2 min-w-[120px] max-w-[200px] bg-(--bg-secondary) border border-border
+               rounded-xl text-sm focus:border-primary focus:outline-none truncate
                overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer"
               >
                 <option value="all">All Types</option>
@@ -237,8 +242,8 @@ export default function SkillTasks() {
               <select
                 value={durationFilter}
                 onChange={(e) => setDurationFilter(e.target.value)}
-                className="px-4 py-2 min-w-[120px] max-w-[200px] bg-[var(--bg-secondary)] border border-[var(--border)]
-               rounded-xl text-sm focus:border-[var(--primary)] focus:outline-none truncate
+                className="px-4 py-2 min-w-[120px] max-w-[200px] bg-(--bg-secondary) border border-border
+               rounded-xl text-sm focus:border-primary focus:outline-none truncate
                overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer"
               >
                 <option value="all">Any Duration</option>
@@ -254,8 +259,8 @@ export default function SkillTasks() {
                 setSelectedTask(null);
                 setIsFormOpen(true);
               }}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[var(--primary)]
-                   text-white hover:bg-[var(--primary-dark)] shadow-md transition-all flex-shrink-0 text-sm cursor-pointer"
+              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary
+                   text-white hover:bg-(--primary-dark) shadow-md transition-all shrink-0 text-sm cursor-pointer"
             >
               <Plus size={18} />
               Add Task
@@ -287,14 +292,14 @@ export default function SkillTasks() {
           filteredTasks.map((task) => (
             <div
               key={task._id}
-              className="group w-full p-5 md:p-6 rounded-2xl bg-[var(--card)] 
-              border border-[var(--border)] shadow-[0_0_15px_rgba(255,255,255,0.05)]
+              className="group w-full p-5 md:p-6 rounded-2xl bg-card 
+              border border-border shadow-[0_0_15px_rgba(255,255,255,0.05)]
               relative overflow-hidden hover:shadow-[0_0_25px_rgba(164,85,247,0.25)] 
-              transition-all duration-300 ease-out hover:border-[var(--primary)]"
+              transition-all duration-300 ease-out hover:border-primary"
             >
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 
-                pointer-events-none bg-gradient-to-br 
+                pointer-events-none bg-linear-to-br 
                 from-[var(--primary)/15] to-transparent blur-xl 
                 transition-all duration-500"
               />
@@ -304,29 +309,29 @@ export default function SkillTasks() {
                 <div className="flex-1 min-w-0">
                   <h3
                     className="text-lg md:text-xl font-semibold tracking-wide 
-                    group-hover:text-[var(--primary)] transition-colors break-words"
+                    group-hover:text-primary transition-colors wrap-break-word"
                   >
                     {task.name}
                   </h3>
 
                   {task.description && (
-                    <p className="text-sm opacity-70 mt-1 leading-relaxed break-words overflow-hidden">
+                    <p className="text-sm opacity-70 mt-1 leading-relaxed wrap-break-word overflow-hidden">
                       {task.description}
                     </p>
                   )}
 
                   <div className="mt-3 md:mt-4 flex gap-2 flex-wrap">
                     <span
-                      className="px-3 py-1 text-xs rounded-lg bg-[var(--bg-secondary)]
-                      border border-[var(--border)] tracking-wide capitalize shadow-inner"
+                      className="px-3 py-1 text-xs rounded-lg bg-(--bg-secondary)
+                      border border-border tracking-wide capitalize shadow-inner"
                     >
                       {task.type}
                     </span>
 
                     {task.duration && (
                       <span
-                        className="px-3 py-1 text-xs rounded-lg bg-[var(--bg-secondary)] 
-                        border border-[var(--border)] shadow-inner"
+                        className="px-3 py-1 text-xs rounded-lg bg-(--bg-secondary) 
+                        border border-border shadow-inner"
                       >
                         {task.duration} min
                       </span>
@@ -345,11 +350,11 @@ export default function SkillTasks() {
                   >
                     <span
                       className="absolute inset-0 rounded-full opacity-0 
-                      group-hover:opacity-100 bg-gradient-to-tr 
-                      from-[var(--primary)]/30 to-transparent blur-md transition-all"
+                      group-hover:opacity-100 bg-linear-to-tr 
+                      from-(--primary)/30 to-transparent blur-md transition-all"
                     />
 
-                    <Wrench size={18} className="relative z-10 group-hover:text-[var(--primary)]" />
+                    <Wrench size={18} className="relative z-10 group-hover:text-primary" />
                   </button>
 
                   <button
@@ -358,14 +363,11 @@ export default function SkillTasks() {
                   >
                     <span
                       className="absolute inset-0 rounded-full opacity-0 
-                      group-hover:opacity-100 bg-gradient-to-tr 
-                      from-[var(--danger)]/30 to-transparent blur-md transition-all"
+                      group-hover:opacity-100 bg-linear-to-tr 
+                      from-(--danger)/30 to-transparent blur-md transition-all"
                     />
 
-                    <Scissors
-                      size={18}
-                      className="relative z-10 group-hover:text-[var(--danger)]"
-                    />
+                    <Scissors size={18} className="relative z-10 group-hover:text-(--danger)" />
                   </button>
                 </div>
               </div>

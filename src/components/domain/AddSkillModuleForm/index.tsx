@@ -131,83 +131,79 @@ export default function AddSkillModuleForm() {
   };
 
   return (
-    <div className="w-full flex justify-center text-[var(--text)] py-10 px-4">
+    <div className="w-full flex justify-center text-(--text) py-10 px-4">
       <form
         onSubmit={handleSubmit(submitModule)}
-        className="w-full max-w-3xl space-y-8 bg-[var(--bg-secondary)]/40 rounded-xl p-8 
-                   shadow-[0_0_20px_var(--shadow)] backdrop-blur-lg border border-[var(--border)]"
+        className="w-full max-w-3xl space-y-8 bg-(--bg-secondary)/40 rounded-xl p-8 
+                   shadow-[0_0_20px_var(--shadow)] backdrop-blur-lg border border-border"
       >
         {/* Title */}
-        <h1 className="text-3xl font-bold tracking-wide text-center text-[var(--primary)] drop-shadow-[0_0_12px_var(--shadow-strong)] mb-2">
+        <h1 className="text-3xl font-bold tracking-wide text-center text-primary drop-shadow-[0_0_12px_var(--shadow-strong)] mb-2">
           {skillId ? "Modify the Skill Details" : "Add a New Skill to Your Arsenal"}
         </h1>
-        <p className="text-center text-[var(--text-secondary)] text-sm -mt-2">
+        <p className="text-center text-(--text-secondary) text-sm -mt-2">
           Strengthen your skill set by forging a new technique.
         </p>
 
         {/* Skill Title */}
         <div className="space-y-1">
-          <label className="block font-medium text-[var(--text-secondary)]">Skill Title</label>
+          <label className="block font-medium text-(--text-secondary)">Skill Title</label>
           <input
             {...register("name", { setValueAs: (v) => v.trim() })}
-            className="w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--input-bg)] 
-                       text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full p-3 rounded-lg border border-border bg-(--input-bg) 
+                       text-(--text) focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="Ex: Learning, Weight Gain, Improve Focus, Time Management…"
           />
-          {errors.name && <p className="text-[var(--error)] text-sm">{errors.name?.message}</p>}
+          {errors.name && <p className="text-(--error) text-sm">{errors.name?.message}</p>}
         </div>
 
         {/* Description */}
         <div className="space-y-1">
-          <label className="block font-medium text-[var(--text-secondary)]">
-            Skill Description
-          </label>
+          <label className="block font-medium text-(--text-secondary)">Skill Description</label>
           <textarea
             {...register("description", { setValueAs: (v) => v.trim() })}
-            className="w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--input-bg)] 
-                       text-[var(--text)] min-h-[120px] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full p-3 rounded-lg border border-border bg-(--input-bg) 
+                       text-(--text) min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="Describe the essence, effect, or origin of this skill…"
           />
           {errors.description && (
-            <p className="text-[var(--error)] text-sm">{errors.description?.message}</p>
+            <p className="text-(--error) text-sm">{errors.description?.message}</p>
           )}
         </div>
 
         {/* Category */}
         <div className="space-y-1">
-          <label className="block font-medium text-[var(--text-secondary)]">Skill Category</label>
+          <label className="block font-medium text-(--text-secondary)">Skill Category</label>
           <input
             {...register("category", { setValueAs: (v) => v.trim() })}
-            className="w-full p-3 rounded-lg border border-[var(--border)] bg-[var(--input-bg)] 
-                       text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+            className="w-full p-3 rounded-lg border border-border bg-(--input-bg) 
+                       text-(--text) focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="Productivity | Fitness | Learning | Mindset | Nutrition…"
           />
-          {errors.category && (
-            <p className="text-[var(--error)] text-sm">{errors.category?.message}</p>
-          )}
+          {errors.category && <p className="text-(--error) text-sm">{errors.category?.message}</p>}
         </div>
 
         {/* Difficulty */}
         <div className="space-y-2">
-          <label className="block font-medium text-[var(--text-secondary)]">Difficulty Level</label>
+          <label className="block font-medium text-(--text-secondary)">Difficulty Level</label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {["beginner", "intermediate", "advanced"].map((level) => (
               <label
                 key={level}
                 className={`p-3 rounded-lg border cursor-pointer flex flex-col gap-2 ${
                   currentLevel === level
-                    ? "border-[var(--primary)] bg-[var(--primary)]/10"
-                    : "border-[var(--option-border)] bg-[var(--bg-secondary)]"
+                    ? "border-primary bg-(--primary)/10"
+                    : "border-(--option-border) bg-(--bg-secondary)"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="text-sm font-medium text-[var(--text)] capitalize">{level}</div>
+                  <div className="text-sm font-medium text-(--text) capitalize">{level}</div>
 
                   <input
                     type="radio"
                     value={level}
                     {...register("difficulty")}
-                    className="cursor-pointer h-2 w-2 appearance-none rounded-full border-2 border-[var(--border)] checked:border-[var(--primary)] checked:bg-[var(--primary)] transition-all duration-300 ease-out scale-100 checked:scale-110"
+                    className="cursor-pointer h-2 w-2 appearance-none rounded-full border-2 border-border checked:border-primary checked:bg-primary transition-all duration-300 ease-out scale-100 checked:scale-110"
                     readOnly
                   />
                 </div>
@@ -215,22 +211,20 @@ export default function AddSkillModuleForm() {
             ))}
           </div>
           {errors.difficulty && (
-            <p className="text-[var(--error)] text-sm">{errors.difficulty?.message}</p>
+            <p className="text-(--error) text-sm">{errors.difficulty?.message}</p>
           )}
         </div>
 
         {/* Cover Photo Upload */}
         <div className="space-y-2">
-          <label className="block font-medium text-[var(--text-secondary)]">Cover Photo</label>
+          <label className="block font-medium text-(--text-secondary)">Cover Photo</label>
 
           <div
-            className={`relative w-full h-48 rounded-lg border-2 flex items-center justify-center cursor-pointer transition-colors duration-200 ${preview ? "border-[var(--primary)] bg-[var(--bg-tertiary)]/30" : "border-[var(--border)] bg-[var(--input-bg)]"} hover:border-[var(--primary)] hover:bg-[var(--bg-tertiary)]`}
+            className={`relative w-full h-48 rounded-lg border-2 flex items-center justify-center cursor-pointer transition-colors duration-200 ${preview ? "border-primary bg-(--bg-tertiary)/30" : "border-border bg-(--input-bg)"} hover:border-primary hover:bg-(--bg-tertiary)`}
             onClick={() => document.getElementById("cover-photo-input")?.click()}
           >
             {!preview && (
-              <p className="text-[var(--text-secondary)] text-center">
-                Click to upload a cover photo
-              </p>
+              <p className="text-(--text-secondary) text-center">Click to upload a cover photo</p>
             )}
 
             {preview && (
@@ -254,14 +248,14 @@ export default function AddSkillModuleForm() {
           />
 
           {errors.coverPhoto && typeof errors.coverPhoto.message === "string" && (
-            <p className="text-[var(--error)] text-sm">{errors.coverPhoto.message}</p>
+            <p className="text-(--error) text-sm">{errors.coverPhoto.message}</p>
           )}
         </div>
 
         {/* Submit */}
         <button
           type="submit"
-          className="px-6 py-2 rounded-lg text-[var(--text)] bg-[var(--primary)] w-full cursor-pointer hover:bg-[var(--primary-dark)]"
+          className="px-6 py-2 rounded-lg text-(--text) bg-primary w-full cursor-pointer hover:bg-(--primary-dark)"
         >
           Save Skill
         </button>
