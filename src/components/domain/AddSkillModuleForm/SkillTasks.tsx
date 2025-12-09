@@ -18,7 +18,6 @@ import { BackendRoutes } from "@/constants";
 import DescriptionText from "@/components/ui/DescriptionText";
 import { useAlert } from "@/context/AlertContext";
 import { AlertVariant } from "@/components/ui/AlertModal";
-import Cheer from "@/components/ui/Cheer";
 
 // Icon Button Style
 const iconButton =
@@ -176,8 +175,6 @@ export default function SkillTasks() {
 
   return (
     <div className="w-full min-h-screen bg-(--bg) text-(--text) pb-20 overflow-x-hidden">
-      <Cheer />
-
       {/* ------------------------------ HEADER ------------------------------ */}
       {skill && (
         <div className="relative w-full h-56 md:h-72 rounded-b-3xl overflow-hidden shadow-lg">
