@@ -338,7 +338,7 @@ export default function SkillTasks() {
 
                 {/* BUTTONS */}
                 <div className="flex gap-3 shrink-0">
-                  <button
+                  {/* <button
                     onClick={() => {
                       setSelectedTask(task);
                       setIsFormOpen(true);
@@ -352,7 +352,7 @@ export default function SkillTasks() {
                     />
 
                     <Wrench size={18} className="relative z-10 group-hover:text-primary" />
-                  </button>
+                  </button> */}
 
                   <button
                     onClick={() => presentDeleteSkillAlert(task._id)}

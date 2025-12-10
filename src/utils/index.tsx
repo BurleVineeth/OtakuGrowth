@@ -12,3 +12,8 @@ export const getWeeklyScheduleKey = (date = new Date()): string => {
 
   return `${d.getUTCFullYear()}-W${weekNumber}`;
 };
+
+export const randomColor = () => {
+  const colors = ["#fbbf24", "#34d399", "#60a5fa", "#ec4899", "#f87171"];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
