@@ -37,7 +37,7 @@ const Register = () => {
   const onSubmit = async ({ confirmPassword: _, ...data }: RegisterForm) => {
     try {
       dispatch(showLoading());
-      const { data: res } = await apiService.post(BackendRoutes.USERS, data, {
+      const { data: res } = await apiService.post(BackendRoutes.CREATE_USER, data, {
         withCredentials: true,
       });
 

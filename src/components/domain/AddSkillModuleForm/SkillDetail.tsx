@@ -9,6 +9,7 @@ import {
   presentToast,
   TOAST_TYPES,
   type Skill,
+  refetchUser,
 } from "@/redux/features";
 import { BackendRoutes, UIRoutes } from "@/constants";
 import type { AppState } from "@/redux/store";
@@ -20,6 +21,7 @@ import { AlertVariant } from "@/components/ui/AlertModal";
 import { getDailyScheduleKey, getWeeklyScheduleKey } from "@/utils";
 import { SimpleCelebrate } from "@/components/ui/SimpleCelebrate";
 import { GrandCelebrate } from "@/components/ui/GrandCelebrate";
+import { levelUpService } from "@/services/levelup.service";
 
 const SkillDetail = () => {
   const { skillId } = useParams();
@@ -63,7 +65,7 @@ const SkillDetail = () => {
     };
 
     fetchSkill();
-  }, [user, skillId, dispatch]);
+  }, [user?._id, skillId, dispatch]);
 
   const { completedTasks, pendingTasks, completedCount, pendingCount, completionPercentage } =
     useMemo(() => {
@@ -144,6 +146,23 @@ const SkillDetail = () => {
         const updated = prev.map((t) => (t._id === task._id ? { ...t, completed: true } : t));
 
         const allTasksCompleted = updated.every((t) => t.completed);
+        const userLevelPayload = {
+          _id: user?._id,
+          ...levelUpService.applyTaskCompletion(
+            {
+              level: user!.level,
+              totalXP: user!.totalXP,
+              class: user!.class,
+            },
+            task,
+            allTasksCompleted ? updated.length : 0
+          ),
+        };
+
+        apiService.post(BackendRoutes.UPDATE_USER_LEVEL, userLevelPayload).then(() => {
+          dispatch(refetchUser());
+        });
+
         // ⭐ Debounce the celebrate reset
         if (celebrateTimer.current) {
           clearTimeout(celebrateTimer.current);
@@ -175,8 +194,6 @@ const SkillDetail = () => {
           type: TOAST_TYPES.ERROR,
         })
       );
-    } finally {
-      dispatch(dismissLoading());
     }
   };
 

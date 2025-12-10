@@ -8,6 +8,9 @@ export interface UserInitialState {
   url?: string;
   public_id?: string;
   fileType?: string;
+  level: number;
+  class: "E" | "D" | "C" | "B" | "A" | "S";
+  totalXP: number;
 }
 
 const initialState: UserInitialState | null = null;
