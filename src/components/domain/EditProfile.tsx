@@ -153,19 +153,16 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
       <div
         className="
           w-full max-w-md p-6 rounded-xl 
-          bg-[var(--bg-secondary)] shadow-primary
-          border border-[var(--primary)]/30
+          bg-(--bg-secondary) shadow-primary
+          border border-(--primary)/30
           animate-[fadeIn_0.2s_ease,scaleIn_0.2s_ease] max-h-full overflow-scroll
         "
       >
         {/* Header */}
         <div className="flex justify-between items-center mb-5">
-          <h2 className="text-xl font-semibold text-[var(--text)]">Edit Profile</h2>
+          <h2 className="text-xl font-semibold text-(--text)">Edit Profile</h2>
 
-          <button
-            onClick={onClose}
-            className="text-[var(--text)] hover:text-[var(--primary)] cursor-pointer"
-          >
+          <button onClick={onClose} className="text-(--text) hover:text-primary cursor-pointer">
             <IoClose size={24} />
           </button>
         </div>
@@ -175,10 +172,10 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
           <img
             src={image || StaticImageUrls.DEFAULT_PROFILE}
             alt="avatar"
-            className="w-24 h-24 rounded-full border-2 border-[var(--primary)] object-cover mb-3"
+            className="w-24 h-24 rounded-full border-2 border-primary object-cover mb-3"
           />
 
-          <label className="cursor-pointer text-[var(--primary)] text-sm hover:underline">
+          <label className="cursor-pointer text-primary text-sm hover:underline">
             Change Photo
             <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
           </label>
@@ -200,7 +197,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
         >
           {/* Name */}
           <label className="flex flex-col">
-            <span className="text-sm text-[var(--text-secondary)] mb-1">Name</span>
+            <span className="text-sm text-(--text-secondary) mb-1">Name</span>
             <input
               className={inputClasses}
               {...register("name", {
@@ -221,7 +218,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
 
           {/* Email */}
           <label className="flex flex-col">
-            <span className="text-sm text-[var(--text-secondary)] mb-1">Email</span>
+            <span className="text-sm text-(--text-secondary) mb-1">Email</span>
             <input
               type="email"
               className={inputClasses}
@@ -239,7 +236,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
 
           {/* Bio */}
           <label className="flex flex-col">
-            <span className="text-sm text-[var(--text-secondary)] mb-1">Bio</span>
+            <span className="text-sm text-(--text-secondary) mb-1">Bio</span>
             <textarea
               className={`${inputClasses} resize-none h-24`}
               {...register("bio", {
@@ -254,7 +251,7 @@ export default function EditProfileModal({ open, onClose, user }: EditProfileMod
             type="submit"
             className="
               w-full mt-4 py-2 rounded-md 
-              bg-[var(--primary)] text-white font-medium 
+              bg-primary text-white font-medium 
               hover:opacity-90 transition cursor-pointer
             "
           >

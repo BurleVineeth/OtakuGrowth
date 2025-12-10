@@ -8,10 +8,10 @@ export default function MobileSidebar({ open, onClose }: { open: boolean; onClos
       }`}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[var(--bg)]/50" onClick={onClose} />
+      <div className="absolute inset-0 bg-(--bg)/50" onClick={onClose} />
 
       {/* Sidebar Panel */}
-      <div className="absolute left-0 top-0 h-full w-64 bg-[var(--bg)] text-[var(--text)] p-6 shadow-xl">
+      <div className="absolute left-0 top-0 h-full w-64 bg-(--bg) text-(--text) p-6 shadow-xl">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">Menu</h2>
@@ -28,15 +28,15 @@ export default function MobileSidebar({ open, onClose }: { open: boolean; onClos
             <FiList className="text-xl" /> My Tasks
           </button>
 
-          <button className="flex items-center gap-3 hover:text-[var(--text-secondary)] transition">
+          <button className="flex items-center gap-3 hover:text-(--text-secondary) transition">
             <FiBook className="text-xl" /> Library
           </button>
 
-          <button className="flex items-center gap-3 hover:text-[var(--text-secondary)] transition">
+          <button className="flex items-center gap-3 hover:text-(--text-secondary) transition">
             <FiBriefcase className="text-xl" /> Work
           </button>
 
-          <button className="flex items-center gap-3 hover:text-[var(--text-secondary)] transition">
+          <button className="flex items-center gap-3 hover:text-(--text-secondary) transition">
             <FiTrendingUp className="text-xl" /> Progress
           </button>
         </nav>

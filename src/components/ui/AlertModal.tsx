@@ -54,7 +54,7 @@ export default function AlertModal({
   const Icon = style.Icon;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-9999">
       <div
         className={`bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-sm animate-scaleIn border ${style.border}`}
       >

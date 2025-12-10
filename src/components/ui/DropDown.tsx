@@ -39,7 +39,7 @@ export default function Dropdown({
     };
     document.addEventListener("click", close);
     return () => document.removeEventListener("click", close);
-  }, []);
+  }, [animateAction]);
 
   const triggerClick = () => {
     setOpen(!open);
@@ -55,7 +55,7 @@ export default function Dropdown({
       </div>
 
       {open && (
-        <div className="absolute right-0 mt-2 p-2 bg-[var(--bg-secondary)] dark:bg-gray-900 shadow-xl rounded-xl w-48 z-50 border border-[var(--border)]">
+        <div className="absolute right-0 mt-2 p-2 bg-(--bg-secondary) dark:bg-gray-900 shadow-xl rounded-xl w-48 z-50 border border-border">
           {React.Children.map(children, enhanceChild)}
         </div>
       )}

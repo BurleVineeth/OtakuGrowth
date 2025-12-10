@@ -57,7 +57,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-full bg-[var(--primary)] text-[var(--text)] px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
+      <header className="w-full bg-primary text-(--text) px-4 py-3 flex items-center justify-between shadow-md sticky top-0 z-50">
         {/* LEFT → LOGO + MENU */}
         <div className="flex items-center gap-3">
           <FiMenu
@@ -79,22 +79,22 @@ export default function Header() {
             <div className="hidden md:flex items-baseline gap-6 text-[15px] font-medium">
               <button
                 onClick={() => navigate(`/${UIRoutes.TASK_INTAKE_WIZARD}`)}
-                className="hover:text-[var(--text-secondary)] transition cursor-pointer"
+                className="hover:text-(--text-secondary) transition cursor-pointer"
               >
                 Task Intake Wizard
               </button>
               <button
                 onClick={() => navigate(`/${UIRoutes.ADD_SKILL}`)}
-                className="hover:text-[var(--text-secondary)] transition cursor-pointer"
+                className="hover:text-(--text-secondary) transition cursor-pointer"
               >
                 Add Skill
               </button>
-              <button className="hover:text-[var(--text-secondary)] transition cursor-pointer">
+              <button className="hover:text-(--text-secondary) transition cursor-pointer">
                 Work
               </button>
               <button
                 onClick={() => navigate(`/${UIRoutes.ABOUT}`)}
-                className="hover:text-[var(--text-secondary)] transition cursor-pointer"
+                className="hover:text-(--text-secondary) transition cursor-pointer"
               >
                 About
               </button>
@@ -116,7 +116,7 @@ export default function Header() {
                 <button
                   key={t.id}
                   onClick={() => setTheme(t.id)}
-                  className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer"
+                  className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition cursor-pointer"
                 >
                   {t.label}
                 </button>
@@ -134,13 +134,13 @@ export default function Header() {
             <div className="flex flex-col gap-2">
               <button
                 onClick={() => navigate(`/${UIRoutes.PROFILE}`)}
-                className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer"
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition cursor-pointer"
               >
                 <FiUser className="text-lg" />
                 Profile
               </button>
 
-              <button className="flex items-center gap-3 p-2 rounded-md hover:bg-[var(--accent)] transition cursor-pointer">
+              <button className="flex items-center gap-3 p-2 rounded-md hover:bg-accent transition cursor-pointer">
                 <FiSettings className="text-lg" />
                 Settings
               </button>

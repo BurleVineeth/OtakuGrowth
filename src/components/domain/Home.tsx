@@ -39,7 +39,7 @@ const Home = () => {
     };
 
     getSkills();
-  }, [user]);
+  }, [dispatch, user]);
 
   const addSkill = () => {
     navigate(`/${UIRoutes.ADD_SKILL}`);
@@ -48,7 +48,7 @@ const Home = () => {
   if (!user) return <Loader />;
 
   return (
-    <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text)] p-6 pt-8 select-none">
+    <div className="w-full min-h-screen bg-(--bg) text-(--text) p-6 pt-8 select-none">
       <section className="mb-14 animate-[fadeIn_0.5s_ease-out]">
         <h1
           className="
@@ -59,7 +59,7 @@ const Home = () => {
           Welcome back, {user.name}
         </h1>
 
-        <p className="text-[var(--text-secondary)] opacity-90 animate-[slideUp_0.6s_ease-out]">
+        <p className="text-(--text-secondary) opacity-90 animate-[slideUp_0.6s_ease-out]">
           Grind hard. Master your skills. Become undeniable.
         </p>
       </section>
@@ -76,8 +76,8 @@ const Home = () => {
                 <div
                   key={i}
                   className="
-                    rounded-xl border border-[var(--border)] 
-                    bg-[var(--card-bg)] overflow-hidden shadow-lg
+                    rounded-xl border border-border 
+                    bg-(--card-bg) overflow-hidden shadow-lg
                   "
                 >
                   <Skeleton height={180} />
@@ -93,10 +93,10 @@ const Home = () => {
                 key={skill._id}
                 onClick={() => navigate(`/${UIRoutes.SKILL}/${skill._id}`)}
                 className="
-                  group rounded-xl border border-[var(--border)] 
-                  bg-[var(--card-bg)] overflow-hidden shadow-lg 
+                  group rounded-xl border border-border 
+                  bg-(--card-bg) overflow-hidden shadow-lg 
                   transition-all duration-300 hover:shadow-[0_0_20px_var(--primary-transparent)]
-                  animate-[slideUp_0.5s_ease-out] cursor-pointer hover:border-[var(--primary)]
+                  animate-[slideUp_0.5s_ease-out] cursor-pointer hover:border-primary
                 "
                 style={{ animationDelay: `${index * 80}ms` }}
               >
@@ -123,15 +123,15 @@ const Home = () => {
                     {skill.name}
                   </h2>
 
-                  <p className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wide">
+                  <p className="text-xs font-semibold text-(--text-secondary) uppercase tracking-wide">
                     {skill.category}
                   </p>
 
-                  <p className="mt-2 text-sm font-bold text-[var(--primary)] uppercase tracking-wide">
+                  <p className="mt-2 text-sm font-bold text-primary uppercase tracking-wide">
                     {skill.difficulty}
                   </p>
 
-                  <p className="mt-3 text-[var(--text-secondary)] text-sm line-clamp-3 leading-relaxed capitalize">
+                  <p className="mt-3 text-(--text-secondary) text-sm line-clamp-3 leading-relaxed capitalize">
                     {skill.description}
                   </p>
                 </div>
@@ -141,7 +141,7 @@ const Home = () => {
 
       <button
         onClick={addSkill}
-        className="fixed bottom-10 right-10 z-50 px-6 py-4 rounded-xl bg-[var(--primary)] text-[var(--button-text)] font-semibold shadow-[0_0_20px_var(--primary-transparent)] active:scale-95 transition-all animate-[popIn_0.4s_ease-out] text-sm cursor-pointer hover:bg-[var(--accent)]"
+        className="fixed bottom-10 right-10 z-50 px-6 py-4 rounded-xl bg-primary text-(--button-text) font-semibold shadow-[0_0_20px_var(--primary-transparent)] active:scale-95 transition-all animate-[popIn_0.4s_ease-out] text-sm cursor-pointer hover:bg-accent"
       >
         + Add Skill
       </button>

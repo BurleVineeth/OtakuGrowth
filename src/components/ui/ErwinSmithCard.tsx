@@ -5,7 +5,7 @@ export default function ErwinSmithCard() {
   return (
     <CharacterCard img={StaticImageUrls.ERWIN_SMITH} center>
       {" "}
-      <p className="italic text-[var(--text-secondary)] text-lg leading-relaxed space-y-4">
+      <p className="italic text-(--text-secondary) text-lg leading-relaxed space-y-4">
         <span className="block">
           “Everything that you thought had meaning: every hope, dream, or moment of happiness… None
           of it matters as you lie bleeding out on the battlefield. None of it changes what a
@@ -20,7 +20,7 @@ export default function ErwinSmithCard() {
         <span className="block mt-3">
           Would you say that of our slain comrades? What about their lives? Were they
           meaningless?...{" "}
-          <span className="not-italic font-semibold text-[var(--text)]">They were not!</span>
+          <span className="not-italic font-semibold text-(--text)">They were not!</span>
         </span>
 
         <span className="block mt-3">
@@ -36,9 +36,9 @@ export default function ErwinSmithCard() {
           Because my soldiers do not buckle or yield when faced with the cruelty of this world!
         </span>
 
-        <span className="block mt-3 text-[var(--text)] font-semibold">
+        <span className="block mt-3 text-(--text) font-semibold">
           My soldiers push forward! My soldiers scream out! My soldiers{" "}
-          <span className="text-[var(--primary)]">RAAAAAAGE!</span>
+          <span className="text-primary">RAAAAAAGE!</span>
         </span>
       </p>
     </CharacterCard>

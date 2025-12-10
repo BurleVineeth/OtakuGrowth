@@ -36,7 +36,7 @@ export default function EnergyPatternField({ inputClass }: { inputClass: string 
       />
 
       {typeof errors.energyPattern?.message === "string" && (
-        <span className="mt-1 text-xs text-[var(--error)]">{errors.energyPattern.message}</span>
+        <span className="mt-1 text-xs text-(--error)">{errors.energyPattern.message}</span>
       )}
     </div>
   );

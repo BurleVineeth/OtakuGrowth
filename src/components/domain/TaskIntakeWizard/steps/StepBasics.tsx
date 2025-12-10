@@ -10,18 +10,18 @@ export default function StepBasics({ inputClass }: { inputClass: string }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <h2 className="text-xl font-semibold text-[var(--text)]">Who are you now?</h2>
+      <h2 className="text-xl font-semibold text-(--text)">Who are you now?</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="flex flex-col">
           <input
             {...register("name", { required: "Name is required" })}
             placeholder="Name"
-            className={`${inputClass} !bg-[var(--disabled)] !text-[var(--disabled-text)] cursor-not-allowed h-12`}
+            className={`${inputClass} bg-(--disabled)! text-(--disabled-text)! cursor-not-allowed h-12`}
             disabled
           />
           {errors.name && (
-            <span className="mt-1 text-xs text-[var(--error)]">{errors.name.message}</span>
+            <span className="mt-1 text-xs text-(--error)">{errors.name.message}</span>
           )}
         </div>
 
@@ -43,9 +43,7 @@ export default function StepBasics({ inputClass }: { inputClass: string }) {
             placeholder="Age"
             className={`${inputClass} h-12`}
           />
-          {errors.age && (
-            <span className="mt-1 text-xs text-[var(--error)]">{errors.age.message}</span>
-          )}
+          {errors.age && <span className="mt-1 text-xs text-(--error)">{errors.age.message}</span>}
         </div>
 
         <EnergyPatternField inputClass={inputClass} />
@@ -66,9 +64,7 @@ export default function StepBasics({ inputClass }: { inputClass: string }) {
           rows={4}
           className={inputClass}
         />
-        {errors.bio && (
-          <span className="mt-1 text-xs text-[var(--error)]">{errors.bio.message}</span>
-        )}
+        {errors.bio && <span className="mt-1 text-xs text-(--error)">{errors.bio.message}</span>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -87,7 +83,7 @@ export default function StepBasics({ inputClass }: { inputClass: string }) {
             className={`${inputClass} h-12`}
           />
           {errors.sleepHours && (
-            <span className="mt-1 text-xs text-[var(--error)]">{errors.sleepHours.message}</span>
+            <span className="mt-1 text-xs text-(--error)">{errors.sleepHours.message}</span>
           )}
         </div>
       </div>

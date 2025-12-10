@@ -20,7 +20,7 @@ export default function FullScreenImageViewer({ src, open, onClose }: FullScreen
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999] animate-fadeIn cursor-pointer"
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-9999 animate-fadeIn cursor-pointer"
       onClick={onClose}
     >
       <div
@@ -35,7 +35,7 @@ export default function FullScreenImageViewer({ src, open, onClose }: FullScreen
 
         <button
           onClick={onClose}
-          className="absolute -top-3 -right-3 text-white bg-[var(--primary)] rounded-full w-9 h-9 flex items-center justify-center text-lg shadow cursor-pointer"
+          className="absolute -top-3 -right-3 text-white bg-primary rounded-full w-9 h-9 flex items-center justify-center text-lg shadow cursor-pointer"
         >
           ✕
         </button>

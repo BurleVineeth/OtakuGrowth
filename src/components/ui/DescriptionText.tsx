@@ -17,9 +17,9 @@ export default function DescriptionText({ text }: { text: string }) {
       <div
         ref={textRef}
         className={`
-          opacity-70 mt-1 text-sm md:text-base leading-relaxed break-words whitespace-normal pr-2
-          transition-all duration-300 max-h-[4.5rem]
-          ${expanded ? "!max-h-[5.5rem] overflow-y-auto" : " overflow-hidden"} 
+          opacity-70 mt-1 text-sm md:text-base leading-relaxed wrap-break-word whitespace-normal pr-2
+          transition-all duration-300 max-h-18
+          ${expanded ? "max-h-22! overflow-y-auto" : " overflow-hidden"} 
         `}
         style={{
           display: "-webkit-box",
@@ -32,7 +32,7 @@ export default function DescriptionText({ text }: { text: string }) {
 
       {!expanded && (
         <div
-          className="text-[var(--primary)] text-sm cursor-pointer mt-1 w-fit"
+          className="text-primary text-sm cursor-pointer mt-1 w-fit"
           onClick={() => setExpanded(true)}
         >
           Show more
@@ -40,10 +40,7 @@ export default function DescriptionText({ text }: { text: string }) {
       )}
 
       {expanded && (
-        <div
-          className="text-[var(--primary)] text-sm cursor-pointer mt-1 w-fit"
-          onClick={handleCollapse}
-        >
+        <div className="text-primary text-sm cursor-pointer mt-1 w-fit" onClick={handleCollapse}>
           Show less
         </div>
       )}

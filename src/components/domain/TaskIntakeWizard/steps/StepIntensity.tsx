@@ -17,8 +17,8 @@ export default function StepIntensity() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold text-[var(--text)]">Choose your training arc</h2>
-      <p className="text-sm text-[var(--text-secondary)]">
+      <h2 className="text-xl font-semibold text-(--text)">Choose your training arc</h2>
+      <p className="text-sm text-(--text-secondary)">
         How fast and intense do you want progress to be?
       </p>
 
@@ -28,12 +28,12 @@ export default function StepIntensity() {
             key={o.value}
             className={`p-3 rounded-lg border cursor-pointer flex flex-col gap-2 ${
               current === o.value
-                ? "border-[var(--primary)] bg-[var(--primary)]/10"
-                : "border-[var(--option-border)] bg-[var(--bg-secondary)]"
+                ? "border-primary bg-(--primary)/10"
+                : "border-(--option-border) bg-(--bg-secondary)"
             }`}
           >
             <div className="flex items-center justify-between">
-              <div className="text-sm font-medium text-[var(--text)]">{o.label}</div>
+              <div className="text-sm font-medium text-(--text)">{o.label}</div>
               <input
                 type="radio"
                 value={o.value}
@@ -41,11 +41,11 @@ export default function StepIntensity() {
                   required: "🔥 Hero! You must declare your training intensity!",
                 })}
                 checked={current === o.value}
-                className="cursor-pointer h-2 w-2 appearance-none rounded-full border-2 border-[var(--border)] checked:border-[var(--primary)] checked:bg-[var(--primary)] transition-all duration-300 ease-out scale-100 checked:scale-110"
+                className="cursor-pointer h-2 w-2 appearance-none rounded-full border-2 border-border checked:border-primary checked:bg-primary transition-all duration-300 ease-out scale-100 checked:scale-110"
                 readOnly
               />
             </div>
-            <div className="text-xs text-[var(--text-secondary)]">{o.desc}</div>
+            <div className="text-xs text-(--text-secondary)">{o.desc}</div>
           </label>
         ))}
       </div>

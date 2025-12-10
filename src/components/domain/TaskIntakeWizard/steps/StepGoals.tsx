@@ -9,7 +9,7 @@ export default function StepGoals({ inputClass }: { inputClass: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-semibold text-[var(--text)]">What do you want to become?</h2>
+      <h2 className="text-xl font-semibold text-(--text)">What do you want to become?</h2>
 
       <input
         {...register("shortTermGoal", {
@@ -28,7 +28,7 @@ export default function StepGoals({ inputClass }: { inputClass: string }) {
         className={`${inputClass} h-12`}
       />
       {errors.shortTermGoal && (
-        <p className="text-xs text-[var(--error)]">{errors.shortTermGoal.message}</p>
+        <p className="text-xs text-(--error)">{errors.shortTermGoal.message}</p>
       )}
 
       <textarea
@@ -49,10 +49,10 @@ export default function StepGoals({ inputClass }: { inputClass: string }) {
         className={inputClass}
       />
       {errors.longTermGoal && (
-        <p className="text-xs text-[var(--error)]">{errors.longTermGoal.message}</p>
+        <p className="text-xs text-(--error)">{errors.longTermGoal.message}</p>
       )}
 
-      <p className="text-sm text-[var(--text-secondary)]">
+      <p className="text-sm text-(--text-secondary)">
         Tip: Make short-term measurable (e.g., "read 20 pages/day", "finish 12 workouts").
       </p>
     </div>

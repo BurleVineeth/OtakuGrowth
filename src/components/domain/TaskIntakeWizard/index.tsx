@@ -71,18 +71,18 @@ export default React.memo(function TaskIntakeWizard() {
   return (
     <div className="w-full max-w-3xl mx-auto p-6 flex flex-col gap-6">
       <div
-        className="p-6 rounded-2xl bg-[var(--bg-secondary)] shadow-primary border border-[var(--primary)]/20 backdrop-blur-lg"
+        className="p-6 rounded-2xl bg-(--bg-secondary) shadow-primary border border-(--primary)/20 backdrop-blur-lg"
         style={{ boxShadow: "var(--shadow)" }}
       >
-        <h1 className="text-3xl font-bold mb-1 text-[var(--primary)]">Task Creation Wizard</h1>
-        <p className="text-sm text-[var(--text-secondary)]">
+        <h1 className="text-3xl font-bold mb-1 text-primary">Task Creation Wizard</h1>
+        <p className="text-sm text-(--text-secondary)">
           We convert your life into an evolving training schedule — who are you now, who will you
           become?
         </p>
       </div>
 
       <div
-        className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--primary)]/20 shadow-xl"
+        className="p-6 rounded-2xl bg-(--bg-secondary) border border-(--primary)/20 shadow-xl"
         style={{ boxShadow: "var(--shadow)" }}
       >
         <Progress step={step} total={total} />
@@ -110,7 +110,7 @@ export default React.memo(function TaskIntakeWizard() {
                   <button
                     type="button"
                     onClick={back}
-                    className="px-5 py-2 rounded-lg border border-[var(--border)] text-[var(--text)] bg-[var(--bg-secondary)] cursor-pointer"
+                    className="px-5 py-2 rounded-lg border border-border text-(--text) bg-(--bg-secondary) cursor-pointer"
                   >
                     Back
                   </button>
@@ -123,10 +123,10 @@ export default React.memo(function TaskIntakeWizard() {
                     type="button"
                     onClick={() => next()}
                     disabled={!canNext}
-                    className={`px-5 py-2 rounded-lg text-[var(--text)] ${
+                    className={`px-5 py-2 rounded-lg text-(--text) ${
                       canNext
-                        ? "bg-[var(--primary)] cursor-pointer hover:bg-[var(--primary-dark)]"
-                        : "bg-[var(--disabled)] text-[var(--disabled-text)] cursor-not-allowed"
+                        ? "bg-primary cursor-pointer hover:bg-(--primary-dark)"
+                        : "bg-(--disabled) text-(--disabled-text) cursor-not-allowed"
                     }`}
                     onMouseDown={(e) => e.preventDefault()}
                     onClickCapture={() => {}}
@@ -142,7 +142,7 @@ export default React.memo(function TaskIntakeWizard() {
                 ) : (
                   <button
                     type="submit"
-                    className="px-6 py-2 rounded-lg text-[var(--text)] bg-[var(--primary)] w-full cursor-pointer hover:bg-[var(--primary-dark)]"
+                    className="px-6 py-2 rounded-lg text-(--text) bg-primary w-full cursor-pointer hover:bg-(--primary-dark)"
                   >
                     Finish
                   </button>

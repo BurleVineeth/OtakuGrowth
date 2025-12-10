@@ -20,8 +20,8 @@ export default function StepTimeWindows() {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <h2 className="text-xl font-semibold text-[var(--text)]">🕒 When can you do work?</h2>
-      <p className="text-sm text-[var(--text-secondary)]">
+      <h2 className="text-xl font-semibold text-(--text)">🕒 When can you do work?</h2>
+      <p className="text-sm text-(--text-secondary)">
         Add dedicated time windows we can schedule tasks into.
       </p>
 
@@ -29,7 +29,7 @@ export default function StepTimeWindows() {
         {fields.map((f, i) => (
           <div
             key={f.id}
-            className="flex flex-col md:flex-row gap-4 p-4 border border-[var(--border)] rounded-lg bg-[var(--bg)]"
+            className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-(--bg)"
           >
             {/* Label */}
             <div className="flex-1 flex flex-col">
@@ -39,10 +39,10 @@ export default function StepTimeWindows() {
                   minLength: { value: 3, message: "✨ At least 3 characters, warrior!" },
                 })}
                 placeholder="Label (e.g., Evening)"
-                className="p-2 rounded-lg border border-[var(--border)] bg-[var(--time-input-bg)] text-[var(--text)] w-full h-12 focus:ring-2 focus:ring-[var(--primary)] focus:outline-none"
+                className="p-2 rounded-lg border border-border bg-(--time-input-bg) text-(--text) w-full h-12 focus:ring-2 focus:ring-primary focus:outline-none"
               />
               {errors.timeWindows?.[i]?.label && (
-                <span className="text-[var(--error)] text-xs mt-1">
+                <span className="text-(--error) text-xs mt-1">
                   {errors.timeWindows[i].label?.message}
                 </span>
               )}
@@ -58,7 +58,7 @@ export default function StepTimeWindows() {
                     {...register(`timeWindows.${i}.from` as const, {
                       required: "⏰ Set the start time of your quest!",
                     })}
-                    className="p-2 rounded-lg border border-[var(--border)] bg-[var(--time-input-bg)] text-[var(--text)] w-full appearance-none h-12 focus:ring-2 focus:ring-[var(--primary)] focus:outline-none"
+                    className="p-2 rounded-lg border border-border bg-(--time-input-bg) text-(--text) w-full appearance-none h-12 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ export default function StepTimeWindows() {
                   </svg>
                 </div>
                 {errors.timeWindows?.[i]?.from && (
-                  <span className="text-[var(--error)] text-xs mt-1">
+                  <span className="text-(--error) text-xs mt-1">
                     {errors.timeWindows[i].from?.message}
                   </span>
                 )}
@@ -85,7 +85,7 @@ export default function StepTimeWindows() {
 
               <div className="hidden relative flex-1 flex-col md:flex">
                 <div className="h-12 relative flex items-center">
-                  <span className="text-sm text-[var(--text)]">—</span>
+                  <span className="text-sm text-(--text)">—</span>
                 </div>
               </div>
 
@@ -97,7 +97,7 @@ export default function StepTimeWindows() {
                     {...register(`timeWindows.${i}.to` as const, {
                       required: "⏰ Set the end time of your quest!",
                     })}
-                    className="p-2 rounded-lg border border-[var(--border)] bg-[var(--time-input-bg)] text-[var(--text)] w-full appearance-none h-12 focus:ring-2 focus:ring-[var(--primary)] focus:outline-none"
+                    className="p-2 rounded-lg border border-border bg-(--time-input-bg) text-(--text) w-full appearance-none h-12 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ export default function StepTimeWindows() {
                   </svg>
                 </div>
                 {errors.timeWindows?.[i]?.to && (
-                  <span className="text-[var(--error)] text-xs mt-1">
+                  <span className="text-(--error) text-xs mt-1">
                     {errors.timeWindows[i].to?.message}
                   </span>
                 )}
@@ -128,7 +128,7 @@ export default function StepTimeWindows() {
               <button
                 type="button"
                 onClick={() => remove(i)}
-                className="px-3 py-1 rounded bg-[var(--danger)] text-[var(--text)] hover:bg-[var(--danger-hover)] transition h-12 cursor-pointer"
+                className="px-3 py-1 rounded bg-(--danger) text-(--text) hover:bg-(--danger-hover) transition h-12 cursor-pointer"
               >
                 Remove
               </button>
@@ -140,7 +140,7 @@ export default function StepTimeWindows() {
         <button
           type="button"
           onClick={addNewWindow}
-          className="flex items-center gap-2 px-4 py-2 mt-2 rounded bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] transition w-full md:w-auto cursor-pointer justify-center"
+          className="flex items-center gap-2 px-4 py-2 mt-2 rounded bg-primary text-white hover:bg-(--primary-dark) transition w-full md:w-auto cursor-pointer justify-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +157,7 @@ export default function StepTimeWindows() {
 
         {/* Empty state */}
         {fields.length === 0 && (
-          <div className="text-sm text-[var(--text-secondary)] mt-2 animate-pulse">
+          <div className="text-sm text-(--text-secondary) mt-2 animate-pulse">
             ⚠️ No time windows yet — adding them gives better schedules!
           </div>
         )}
