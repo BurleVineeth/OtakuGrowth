@@ -22,8 +22,12 @@ const Home = () => {
     const getSkills = async () => {
       try {
         setLoading(true);
+
+        const date = new Date();
+        const dailyKey = date.toISOString().slice(0, 10); // "YYYY-MM-DD"
         const { data: skillsList } = await apiService.get(
-          `${BackendRoutes.GET_SKILLS}/${user._id}`
+          `${BackendRoutes.GET_SKILLS}/${user._id}`,
+          { params: { dailyKey } }
         );
         dispatch(setSkills(skillsList.data.skills));
       } catch (error) {
@@ -130,6 +134,26 @@ const Home = () => {
                   <p className="mt-2 text-sm font-bold text-primary uppercase tracking-wide">
                     {skill.difficulty}
                   </p>
+
+                  <div className="mt-3">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-xs font-semibold text-(--text-secondary)">
+                        Progress
+                      </span>
+                      <span className="text-xs font-bold text-primary">
+                        {skill.completedTasks}/{skill.totalTasks}
+                      </span>
+                    </div>
+
+                    <div className="w-full h-2 bg-border rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary transition-all duration-500"
+                        style={{
+                          width: `${skill.totalTasks > 0 ? (skill.completedTasks / skill.totalTasks) * 100 : 0}%`,
+                        }}
+                      ></div>
+                    </div>
+                  </div>
 
                   <p className="mt-3 text-(--text-secondary) text-sm line-clamp-3 leading-relaxed capitalize">
                     {skill.description}

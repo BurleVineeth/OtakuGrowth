@@ -1,50 +1,97 @@
 import { AiFillLock } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import type { AppState } from "../../redux/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditProfileModal from "./EditProfile";
 import { StaticImageUrls } from "../../constants";
 import { useImageViewer } from "@/context/ImageViewerContext";
+import { levelUpService } from "@/services/levelup.service";
 
 export default function Profile() {
   const user = useSelector(({ user }: AppState) => user);
   const [isOpen, setIsOpen] = useState(false);
   const { openImage } = useImageViewer();
+  const [requiredXp, setRequiredXp] = useState(0);
+
+  useEffect(() => {
+    const callRequiredExpSetter = () => {
+      const value = levelUpService.requiredXP(user?.level ?? 1);
+      setRequiredXp(value);
+    };
+
+    callRequiredExpSetter();
+  }, [user?._id]);
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 flex flex-col gap-6 sm:gap-8">
       {/* Profile Header */}
       <div
-        className="p-4 sm:p-6 rounded-2xl bg-(--bg-secondary) shadow-primary 
-                      flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 
-                      border border-border hover:shadow-lg transition-all"
+        className="p-5 sm:p-7 rounded-2xl bg-(--bg-secondary)/80 shadow-primary 
+             flex flex-col sm:flex-row items-center gap-6 border border-border 
+             backdrop-blur-md transition-all hover:shadow-md"
       >
-        <img
-          src={user?.url || StaticImageUrls.DEFAULT_PROFILE}
-          alt="avatar"
-          className="w-24 h-24 rounded-full object-cover border-2 border-primary shadow-md cursor-pointer"
-          onClick={() => openImage(user?.url || StaticImageUrls.DEFAULT_PROFILE)}
-        />
+        {/* Avatar */}
+        <div className="flex-1 flex flex-col items-center">
+          <img
+            src={user?.url || StaticImageUrls.DEFAULT_PROFILE}
+            alt="avatar"
+            className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-primary shadow-lg cursor-pointer"
+            onClick={() => openImage(user?.url || StaticImageUrls.DEFAULT_PROFILE)}
+          />
 
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-bold text-(--text) leading-tight">
-            {user?.name}
-          </h1>
+          {/* Level Badge */}
+          <div
+            className="mt-3 px-4 py-1 rounded-full bg-primary/15 border border-primary/30 
+                    text-primary font-semibold text-xs shadow-sm tracking-wide"
+          >
+            Level {user?.level || 1}
+          </div>
+        </div>
 
-          <p className="text-sm text-(--text-secondary)">{user?.email}</p>
+        {/* RIGHT SIDE */}
+        <div className="flex-3 flex flex-col items-center sm:items-start text-center sm:text-left w-full">
+          {/* Name + Email */}
+          <h1 className="text-2xl sm:text-3xl font-bold text-(--text)">{user?.name}</h1>
+          <p className="text-sm text-(--text-secondary) mt-0.5">{user?.email}</p>
 
+          {/* Class Tag */}
+          <div
+            className="mt-2 px-3 py-1 rounded-lg bg-(--bg) border border-border shadow-sm 
+                    text-(--text-secondary) text-xs font-medium tracking-wide"
+          >
+            {user?.class || "Novice"} Class
+          </div>
+
+          {/* XP + Progress */}
+          <div className="mt-4 w-full max-w-sm flex flex-col gap-1">
+            <div className="flex justify-between text-xs text-(--text-secondary)">
+              <span>Level Progress</span>
+              <span>
+                {user?.totalXP || 0} / {requiredXp || 100} XP
+              </span>
+            </div>
+
+            <div className="w-full h-2.5 bg-(--border) rounded-full overflow-hidden border border-border/70">
+              <div
+                className="h-full bg-primary transition-all duration-700 rounded-full"
+                style={{
+                  width: `${requiredXp ? ((user?.totalXP || 0) / requiredXp) * 100 : 0}%`,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Edit Button */}
           <button
-            className="mt-3 px-5 py-2 w-full sm:w-auto rounded-lg bg-primary 
-                       text-white text-sm font-medium shadow-md hover:scale-105 
-                       hover:shadow-lg transition-all cursor-pointer"
+            className="mt-5 px-6 py-2 rounded-lg bg-primary text-white font-medium text-sm 
+                 shadow-md hover:shadow-lg hover:scale-[1.03] transition-all cursor-pointer"
             onClick={() => setIsOpen(true)}
           >
             Edit Profile
           </button>
-
-          {user && <EditProfileModal open={isOpen} onClose={() => setIsOpen(false)} user={user} />}
         </div>
       </div>
+      {user && <EditProfileModal open={isOpen} onClose={() => setIsOpen(false)} user={user} />}
 
       {/* Theme Selector */}
       <div className="p-4 sm:p-6 rounded-2xl bg-(--bg-secondary) shadow-primary border border-border">

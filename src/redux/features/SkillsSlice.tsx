@@ -11,6 +11,8 @@ export interface Skill {
   createdAt?: string;
   fileType?: string;
   public_id?: string;
+  completedTasks: number;
+  totalTasks: number;
 }
 
 export interface SkillsInitialState {

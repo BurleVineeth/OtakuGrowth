@@ -132,7 +132,7 @@ const SkillDetail = () => {
           ? getDailyScheduleKey()
           : type === TaskType.WEEKLY
             ? getWeeklyScheduleKey()
-            : task.toString();
+            : task._id.toString();
 
       await apiService.post(BackendRoutes.COMPLETE_TASK, {
         skill: task.skill,
@@ -326,7 +326,7 @@ const SkillDetail = () => {
                           </span>
 
                           <span className="opacity-60">
-                            {new Date(task.createdAt).toDateString()}
+                            From: {new Date(task.createdAt).toDateString()}
                           </span>
                         </div>
                       </div>
@@ -363,7 +363,7 @@ const SkillDetail = () => {
                           </span>
 
                           <span className="opacity-60">
-                            {new Date(task.createdAt).toDateString()}
+                            From: {new Date(task.createdAt).toDateString()}
                           </span>
                         </div>
                       </div>
