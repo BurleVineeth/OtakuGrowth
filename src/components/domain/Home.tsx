@@ -6,7 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Loader from "../ui/Loader";
 import { apiService } from "@/services/api.service";
 import { BackendRoutes, UIRoutes } from "@/constants";
-import { presentToast, setSkills, TOAST_TYPES } from "@/redux/features";
+import { presentToast, setSkills, TOAST_TYPES, type Skill } from "@/redux/features";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -29,7 +29,19 @@ const Home = () => {
           `${BackendRoutes.GET_SKILLS}/${user._id}`,
           { params: { dailyKey } }
         );
-        dispatch(setSkills(skillsList.data.skills));
+        dispatch(setSkills(skillsList.data.skills.map((s: { skill: Partial<Skill> }) => s.skill)));
+        setTimeout(() => {
+          dispatch(
+            setSkills(
+              skillsList.data.skills.map(
+                (s: {
+                  skill: Partial<Skill>;
+                  value: { totalTasks: number; completedTasks: number };
+                }) => ({ ...s.skill, ...s.value })
+              )
+            )
+          );
+        }, 0);
       } catch (error) {
         dispatch(
           presentToast({
